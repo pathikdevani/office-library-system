@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "debug.toolBarLocation": "docked",
+  "cSpell.words": [
+    "DEVTOOLS",
+    "Sider",
+    "antd",
+    "promisify",
+    "signin",
+    "signout"
+  ]
+}
