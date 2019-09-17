@@ -40,7 +40,7 @@ function Login(props) {
         }).then((user) => {
           setLoading(false);
           setGlobalLoading(false);
-          setCurrentUser(user);
+          setCurrentUser(user.data);
         }).catch(() => {
           message.error('User name or Password is wrong');
           setLoading(false);
