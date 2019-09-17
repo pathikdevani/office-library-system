@@ -16,6 +16,7 @@
     "react": "*",
     "react-app-rewired": "*",
     "react-dom": "*",
+    "react-highlight-words": "^0.16.0",
     "react-redux": "*",
     "react-router-dom": "*",
     "react-scripts": "*",
