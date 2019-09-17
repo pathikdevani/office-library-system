@@ -1,0 +1,27 @@
+{
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "editor.formatOnType": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": false,
+  "debug.toolBarLocation": "docked",
+  "cSpell.words": [
+    "Devani",
+    "Pathik",
+    "UNPROCESSABLE",
+    "deserialize",
+    "fname",
+    "gmail",
+    "lname",
+    "pathikdevani",
+    "promisify",
+    "resave",
+    "signin",
+    "signout",
+    "signup"
+  ]
+}
