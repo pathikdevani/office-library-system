@@ -2,6 +2,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import AdminPage from '../AdminPage';
+import UserPage from '../UserPage';
 
 
 const Container = styled.div`
@@ -16,7 +18,9 @@ function Dashboard(props) {
   if (!user) {
     return <div>Loading...</div>;
   }
-  const page = user.role === 'admin' ? <div>admin page</div> : <div>user page</div>;
+  const page = user.role === 'admin' ? (<AdminPage/>) : (<UserPage />);
+
+
   return (
     <Container>
       {page}

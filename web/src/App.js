@@ -10,8 +10,8 @@ import Loading from './components/utils/Loading';
 import userRequests from './requests/user.requests';
 import authActions from './actions/auth.actions';
 import globalActions from './actions/global.actions';
-import UserPage from './pages/UserPage';
-import AdminPage from './pages/AdminPage';
+import Login from '../src/pages/Login/Login';
+import Dashboard from '../src/pages/Dashboard/Dashboard';
 
 const Container = styled.div`
   position: relative;
@@ -33,7 +33,7 @@ function App(props) {
     setCurrentUser,
     setGlobalSplash,
     splash,
-    user,
+    // user,
   } = props;
 
   useEffect(() => {
@@ -58,9 +58,7 @@ function App(props) {
           <Router>
             <Fragment>
               <Switch>
-                <Route component={UserPage} path="/user" />
-                <Route component={AdminPage} path="/admin" />
-                {/* <ProtectedRoute
+                <ProtectedRoute
                   path="/login"
                   exact
                   component={Login}
