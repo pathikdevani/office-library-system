@@ -1,10 +1,12 @@
 const User = require('./api/resources/users/users.model');
-const { user } = require('../package.json');
+const { users } = require('../package.json');
 
 module.exports = () => {
-  if (user) {
-    User.signup(user)
-      .then(() => { })
-      .catch(() => { });
+  if (users) {
+    Promise.all(users.map((u) => {
+      return User.signup(u)
+        .then(() => { })
+        .catch(() => { });
+    }));
   }
 };

@@ -80,7 +80,7 @@ schema.statics = {
   signup(options) {
     const Model = this;
     const {
-      email, password, fname, lname,
+      email, password, fname, lname, role,
     } = options;
     return new Promise((resolve, reject) => {
       Model.findOne({ email })
@@ -98,7 +98,7 @@ schema.statics = {
             email,
             password: hash.replace(process.env.SALT, ''),
             disable: false,
-            role: 'user',
+            role: role || 'user',
           });
           return user.save();
         })

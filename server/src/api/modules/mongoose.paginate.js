@@ -1,3 +1,3 @@
-export default (query) => {
+// export default (query) => {
 
-};
+// };
