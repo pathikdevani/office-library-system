@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+// import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Splash from './components/Splash';
 import GlobalStyle from './global.style';
 import Loading from './components/utils/Loading';
@@ -65,7 +65,7 @@ function App(props) {
                   noAuth
                   to="/"
                 />
-                <ProtectedRoute path="/" component={Dashboard} to="/login" />
+                <ProtectedRoute path="/" component={Dashboard} to="/login" /> */}
               </Switch>
             </Fragment>
           </Router>
