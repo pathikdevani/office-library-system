@@ -3,16 +3,15 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
 
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+// import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Splash from './components/Splash';
-import Login from './pages/Login/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Public from './pages/Public';
 import GlobalStyle from './global.style';
 import Loading from './components/utils/Loading';
 import userRequests from './requests/user.requests';
 import authActions from './actions/auth.actions';
 import globalActions from './actions/global.actions';
+import UserPage from './pages/UserPage';
+import AdminPage from './pages/AdminPage';
 
 const Container = styled.div`
   position: relative;
@@ -59,15 +58,16 @@ function App(props) {
           <Router>
             <Fragment>
               <Switch>
-                <Route component={Public} path="/public" />
-                <ProtectedRoute
+                <Route component={UserPage} path="/user" />
+                <Route component={AdminPage} path="/admin" />
+                {/* <ProtectedRoute
                   path="/login"
                   exact
                   component={Login}
                   noAuth
                   to="/"
                 />
-                <ProtectedRoute path="/" component={Dashboard} to="/login" />
+                <ProtectedRoute path="/" component={Dashboard} to="/login" /> */}
               </Switch>
             </Fragment>
           </Router>
