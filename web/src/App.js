@@ -33,13 +33,14 @@ function App(props) {
     setCurrentUser,
     setGlobalSplash,
     splash,
+    user,
   } = props;
 
   useEffect(() => {
     userRequests
       .isSingedIn()
       .then((user) => {
-        setCurrentUser(user);
+        setCurrentUser(user.data);
       })
       .finally(() => {
         setGlobalSplash(false);
@@ -86,6 +87,7 @@ function App(props) {
 const mapStateToProps = state => ({
   loading: state.global.loading,
   splash: state.global.splash,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, {

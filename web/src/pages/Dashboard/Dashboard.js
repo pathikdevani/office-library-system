@@ -1,6 +1,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 
 const Container = styled.div`
@@ -10,12 +11,20 @@ const Container = styled.div`
   float: left;
 `;
 
-function Dashboard() {
+function Dashboard(props) {
+  const { user } = props;
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+  const page = user.role === 'admin' ? <div>admin page</div> : <div>user page</div>;
   return (
     <Container>
-      Dashboard
+      {page}
     </Container>
   );
 }
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
 
-export default Dashboard;
+export default connect(mapStateToProps)(Dashboard);
