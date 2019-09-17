@@ -43,6 +43,20 @@
       "eslint src/ --fix"
     ]
   },
+  "users": [
+    {
+      "fname": "Pathik",
+      "lname": "Devani",
+      "email": "admin",
+      "password": "admin"
+    },
+    {
+      "fname": "Pathik",
+      "lname": "Devani",
+      "email": "user",
+      "password": "user"
+    }
+  ],
   "user": {
     "fname": "Pathik",
     "lname": "Devani",
