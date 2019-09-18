@@ -1,6 +1,5 @@
 const express = require('express');
 
-const cors = require('cors');
 const router = require('./api/router');
 const middleware = require('./middleware');
 const db = require('./db');
@@ -12,19 +11,6 @@ const notFoundResponse = require('./api/response/notFound.error.response');
 // require('./api/jobs/jobs.processes');
 
 const app = express();
-
-const whitelist = ['http://localhost:2020'];
-const corsOptions = {
-  origin(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
 
 db();
 middleware(app);

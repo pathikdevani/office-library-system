@@ -5,7 +5,7 @@ import { getRows, getColumns } from '../utils/mockData';
 import IssueButton from '../components/IssueButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks } from '../apiMethods';
+import { getBooks, getIssues, createBook } from '../apiMethods';
 
 
 
@@ -22,9 +22,15 @@ export default () => {
           data={data}
           openModal={() => {
             // setIsModalOpen(true);
-            getBooks().then(data => {
-              console.log(data);
-            });
+            // getBooks().then(response => {
+            //   console.log(response.data.data);
+            // });
+            // getIssues().then(response => {
+            //   console.log(response.data.data);
+            // });
+            createBook(9788184003482).then(response => {
+              console.log(response.data.data);
+            });;
           }}
         />
       )
@@ -78,7 +84,7 @@ export default () => {
             <div>To Date</div>
             <DatePicker />
           </Fragment>
-          </Modal>
+        </Modal>
       )}
     </Fragment>
   );
