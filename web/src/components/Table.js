@@ -1,6 +1,8 @@
 import React, { useState, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
+
 import MaterialTable from 'material-table';
+
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
@@ -27,16 +29,11 @@ const TableWrapper = styled.div`
 export default React.memo((props) => {
   const { dataSource, columns, title, } = props;
   const [rows, setRows] = useState(dataSource);
+
   useEffect(() => {
-    debugger;
-    setRows(dataSource.map(book => {
-      return {
-        title: book.title,
-        author: book.authors.reduce((author1, author2) => {
-          return `${author1}, ${author2}`;
-        })
-      }
-    }));
+    if(dataSource.length > 0) {
+      setRows(dataSource);
+    }
   }, [dataSource]);
 
   const tableIcons = {
@@ -58,6 +55,7 @@ export default React.memo((props) => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
+
 
   return (
     <TableWrapper>

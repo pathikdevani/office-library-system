@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const getRows = () => {
   const dataSource = [
     {
@@ -18,11 +20,16 @@ export const getRows = () => {
 }
 
 
-export const getColumns = (filteredInfo = {}, sortedInfo = {}) => [
-  { title: 'Book title', field: 'title' },
-  { title: 'Author', field: 'author' },
-  // Not needed
+export const getColumns = (Renderer) => [
+  { title: 'Book title', field: 'title', type: 'string' },
+  { title: 'Author', field: 'author', type: 'string' },
   // { title: 'Book Owner', field: 'bookOwner' },
-  { title: 'Status', field: '', type: 'status' },
-  { title: 'Issue', field: '', type: 'issue' },
+  { title: 'Status', field: 'status', type: 'string' },
+  // { title: 'Issue', field: 'issue', render: (<Renderer/>) },
+  {
+    title: 'Issue', field: 'issue',
+    render: () => (
+      <div>ABCD</div>
+    )
+  },
 ];

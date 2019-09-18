@@ -12,7 +12,7 @@ export default (props) => {
     <DatePicker
       defaultValue={moment('2015/01/01', dateFormat)}
       format={dateFormat}
-      disabled
+      disabled={disabled}
     />
   );
 }

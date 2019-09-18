@@ -5,14 +5,38 @@ import { getRows, getColumns } from '../utils/mockData';
 import IssueButton from '../components/IssueButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks, getIssues, createBook } from '../apiMethods';
+import { getBooks/* , getIssues, createBook */ } from '../apiMethods';
 
+
+export const Renderer = (rowData) => {
+  return (
+    <div>ABCD</div>
+  );
+};
 
 export default () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
   const isSubscribed = useRef();
+
+  const mapBookData = (dataSource) => {
+    if (dataSource.length > 0) {
+      return dataSource.map(book => {
+        return {
+          title: book.title,
+          author: book.authors && book.authors.length > 0
+            ? book.authors.reduce((author1, author2) => {
+              return `${author1}, ${author2}`;
+            })
+            : '',
+          status: '',
+          // issue: 'issue',
+        }
+      });
+    }
+    return [];
+  }
 
   const getAllBooks = async () => {
     const response = await getBooks();
@@ -54,14 +78,15 @@ export default () => {
       )
     }
   }));
-  const columns = getColumns();
+
+  const columns = getColumns(Renderer);
 
   const userTabs = [{
     tab: 'All books',
     key: 1,
     content: (
       <Table
-        dataSource={allBooks}
+        dataSource={mapBookData(allBooks)}
         columns={getColumns()}
         title="All books"
       />
