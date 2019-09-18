@@ -1,12 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
+import styled from 'styled-components';
+
 import Table from '../components/Table';
-import TabView from '../components/TabView';
 import { getRows, getColumns } from '../utils/mockData';
+import CommonTableDisplay from '../components/CommonTableDisplay';
+import PrimaryButton from '../components/PrimaryButton';
+import Modal from '../components/Modal';
+import { Input } from 'antd';
+import { createBook } from '../apiMethods';
 
 
+const AddButtonContainer = styled.div`
+  text-align: right;
+  margin: 10px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 40px;
+  justify-content: flex-end;
+`;
 export default () => {
   const dataSource = getRows();
   const columns = getColumns();
+  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
+  const inputRef = useRef();
 
   const userTabs = [{
     tab: 'All books',
@@ -31,10 +51,46 @@ export default () => {
 
   return (
     <Fragment>
-      <div>Admin</div>
-      <TabView
-        tabs={userTabs}
+      <ButtonContainer>
+        <PrimaryButton
+          content="Add Book"
+          onClick={() => {
+            setIsAddBookModalOpen(true);
+          }}
+        />
+      </ButtonContainer>
+      <CommonTableDisplay
+        role="Admin"
       />
+
+      {isAddBookModalOpen && (
+        <Modal
+          title="Add Book"
+          visible={isAddBookModalOpen}
+          onCancel={() => {
+            setIsAddBookModalOpen(false);
+          }}
+        >
+          <Fragment>
+            <Input
+              placeholder="Add ISBN"
+              onChange={(e) => {
+                inputRef.current = e.target.value;
+              }}
+            />
+            <AddButtonContainer>
+              <PrimaryButton
+                content="Add Book"
+                onClick={() => {
+                  console.log(inputRef.current);
+                  createBook(inputRef.current);
+                  setIsAddBookModalOpen(false);
+                }}
+              />
+            </AddButtonContainer>
+          </Fragment>
+        </Modal>
+      )}
     </Fragment>
   );
 }

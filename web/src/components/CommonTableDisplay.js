@@ -8,7 +8,6 @@ import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
 import { getBooks, createIssue, getIssues } from '../apiMethods';
-import CommonTableDisplay from '../components/CommonTableDisplay';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -25,7 +24,7 @@ const IssueButtonContainer = styled.div`
 
 
 export default (props) => {
-  const { user } = props;
+  const { user, role } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
@@ -119,8 +118,43 @@ export default (props) => {
   }];
 
   return (
-    <CommonTableDisplay
-      role="User"
-    />
+    <Fragment>
+      <div>{role}</div>
+      <TabView
+        tabs={userTabs}
+      />
+
+      {isModalOpen && (
+        <Modal
+          title="Issue Book"
+          visible={isModalOpen}
+          onCancel={() => {
+            setIsModalOpen(false);
+          }}
+        >
+          <Fragment>
+            <IssueBook>
+              <div>From Date</div>
+              <DatePicker
+                disabled={true}
+                defaultValue={new Date()}
+              />
+              <div>To Date</div>
+              <DatePicker
+                defaultValue={ONE_MONTH_LATER_DATE}
+              />
+            </IssueBook>
+            <IssueButtonContainer>
+              <PrimaryButton
+                content="Issue Book"
+                onClick={(toDate) => {
+                  createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
+                }}
+              />
+            </IssueButtonContainer>
+          </Fragment>
+        </Modal>
+      )}
+    </Fragment>
   );
 }
