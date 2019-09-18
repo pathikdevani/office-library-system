@@ -88,7 +88,7 @@ router.post(
       })
       .catch((err) => {
         errorResponse(res, (err.status || 500), {
-          code: err.msg,
+          code: err,
         });
       });
   },
