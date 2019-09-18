@@ -17,7 +17,7 @@ const schema = new mongoose.Schema(
     description: {
       type: String,
     },
-    page_count: {
+    pageCount: {
       type: Number,
       required: true,
     },
@@ -31,11 +31,11 @@ const schema = new mongoose.Schema(
     publisher: {
       type: String,
     },
-    published_date: {
+    publishedDate: {
       type: Date,
       required: true,
     },
-    issue_id: {
+    issueId: {
       type: String,
     },
   },
