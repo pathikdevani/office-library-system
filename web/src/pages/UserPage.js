@@ -5,6 +5,7 @@ import { getRows, getColumns } from '../utils/mockData';
 import IssueButton from '../components/IssueButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
+import { getBooks } from '../apiMethods';
 
 
 
@@ -20,7 +21,10 @@ export default () => {
         <IssueButton
           data={data}
           openModal={() => {
-            setIsModalOpen(true);
+            // setIsModalOpen(true);
+            getBooks().then(data => {
+              console.log(data);
+            });
           }}
         />
       )
