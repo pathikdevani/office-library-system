@@ -13,7 +13,7 @@ const notFoundResponse = require('./api/response/notFound.error.response');
 
 const app = express();
 
-const whitelist = ['http://example1.com', 'http://example2.com'];
+const whitelist = ['http://localhost:2020'];
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
