@@ -1,7 +1,3 @@
-import React, { Fragment } from 'react';
-import getColumnSearchProps from '../../src/utils/getColumnSearchProps';
-import api from '../api';
-
 export const getRows = () => {
   const dataSource = [
     {
@@ -18,45 +14,15 @@ export const getRows = () => {
     },
   ];
 
-  api.get('/getUsers')
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => { console.log(error) });
   return dataSource;
 }
 
 
 export const getColumns = (filteredInfo = {}, sortedInfo = {}) => [
-  {
-    title: 'Book title',
-    dataIndex: 'bookTitle',
-    key: 'bookTitle',
-    // ...getColumnSearchProps('name'),
-    // sorter: (a, b) => a.name.length - b.name.length,
-    sorter: (item1, item2) => {
-      console.log(item1, item2);
-      if (item1 < item2)
-        return -1;
-      if (item1 > item2)
-        return 1;
-      return 0;
-    },
-    sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-  },
-  {
-    title: 'Author',
-    dataIndex: 'author',
-    key: 'author',
-  },
-  {
-    title: 'Book Owner',
-    dataIndex: 'bookOwner',
-    key: 'bookOwner',
-  },
-  {
-    title: 'Issue',
-    dataIndex: 'issue',
-    key: 'issue',
-  },
+  { title: 'Book title', field: 'title' },
+  { title: 'Author', field: 'author' },
+  // Not needed
+  // { title: 'Book Owner', field: 'bookOwner' },
+  { title: 'Status', field: '', type: 'status' },
+  { title: 'Issue', field: '', type: 'issue' },
 ];

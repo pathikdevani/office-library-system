@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import Table from '../components/Table';
 import TabView from '../components/TabView';
 import { getRows, getColumns } from '../utils/mockData';
@@ -8,9 +8,27 @@ import DatePicker from '../components/DatePicker';
 import { getBooks, getIssues, createBook } from '../apiMethods';
 
 
-
 export default () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [allBooks, setAllBooks] = useState([], getAllBooks());
+  const [allBooks, setAllBooks] = useState([]);
+  const isSubscribed = useRef();
+
+  const getAllBooks = async () => {
+    const response = await getBooks();
+    if (isSubscribed.current) {
+      setAllBooks(response.data.data);
+    }
+  };
+
+  useEffect(() => {
+    isSubscribed.current = true;
+    getAllBooks();
+
+    return () => {
+      isSubscribed.current = false;
+    };
+  }, []);
 
   const dataSource = getRows();
   dataSource.forEach((data => {
@@ -22,15 +40,15 @@ export default () => {
           data={data}
           openModal={() => {
             // setIsModalOpen(true);
-            // getBooks().then(response => {
-            //   console.log(response.data.data);
-            // });
+            getBooks().then(response => {
+              console.log(response.data.data);
+            });
             // getIssues().then(response => {
             //   console.log(response.data.data);
             // });
-            createBook(9788184003482).then(response => {
-              console.log(response.data.data);
-            });;
+            // createBook(9788184003482).then(response => {
+            //   console.log(response.data.data);
+            // });;
           }}
         />
       )
@@ -43,8 +61,9 @@ export default () => {
     key: 1,
     content: (
       <Table
-        dataSource={dataSource}
-        columns={columns}
+        dataSource={allBooks}
+        columns={getColumns()}
+        title="All books"
       />
     ),
   }, {

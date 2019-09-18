@@ -6,7 +6,7 @@ const errorResponse = require('../../response/error.response');
 
 function getDetailFromApi(isbn, googleBookApi) {
   const {
-    title, subtitle, description, pageCount, categories, authors, publishedDate, publisher,
+    title, subtitle, description, pageCount, categories, authors, publishedDate, publisher, imageLinks, previewLink, infoLink,
   } = googleBookApi;
 
   return {
@@ -19,6 +19,9 @@ function getDetailFromApi(isbn, googleBookApi) {
     authors,
     publisher,
     publishedDate,
+    imageLinks,
+    previewLink,
+    infoLink,
   };
 }
 
