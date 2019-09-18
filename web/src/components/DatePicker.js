@@ -2,21 +2,23 @@ import React, { useState } from 'react';
 
 import { DatePicker } from 'antd';
 import moment from 'moment';
-import { getLocaleDateString } from '../utils/calendarUtils';
 
 export default (props) => {
-  const { disabled = false, value = new Date() } = props;
-  const [val, setValue] = useState(value);
+  const { disabled = false, defaultValue = new Date() } = props;
+  const [value, setValue] = useState(defaultValue);
   // const dateFormat = getLocaleDateString();
   const dateFormat = 'YYYY/MM/DD';
-  debugger;
 
 
   return (
     <DatePicker
       defaultValue={moment(value.toLocaleDateString(), dateFormat)}
+      value={moment(value, dateFormat)}
       format={dateFormat}
       disabled={disabled}
+      onChange={(date, dateString) => {
+        console.log(date, dateString);
+      }}
     />
   );
 }

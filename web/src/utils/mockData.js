@@ -36,7 +36,9 @@ export const getColumns = (buttonProps) => [
           {canBeIssued && (
             <PrimaryButton
               content="Issue"
-              onClick={buttonProps.onClick}
+              onClick={(e) => {
+                buttonProps.onClick(e, rowData);
+              }}
             />
           )}
         </Fragment>

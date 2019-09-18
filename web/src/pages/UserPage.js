@@ -7,7 +7,9 @@ import { getRows, getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks/* , getIssues, createBook */ } from '../apiMethods';
+import { getBooks,/* , getIssues, createBook */
+createIssue,
+getIssues} from '../apiMethods';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -25,16 +27,20 @@ const IssueButtonContainer = styled.div`
 
 export default (props) => {
   const { user } = props;
-  console.log(user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
+  const [issues, setAllIssues] = useState([]);
+  const [currentRow, setCurrentRow] = useState([]);
   const isSubscribed = useRef();
 
   const mapBookData = (dataSource) => {
     if (dataSource.length > 0) {
       return dataSource.map(book => {
         return {
+          id : book._id,
+          isbn: book.isbn,
+          categories: book.categories,
           title: book.title,
           author: book.authors && book.authors.length > 0
             ? book.authors.reduce((author1, author2) => {
@@ -55,48 +61,31 @@ export default (props) => {
       setAllBooks(response.data.data);
     }
   };
+  const getAllIssues = async () => {
+    const response = await getIssues();
+    if (isSubscribed.current) {
+      console.log(response.data.data);
+      setAllIssues(response.data.data);
+    }
+  };
 
   useEffect(() => {
     isSubscribed.current = true;
     getAllBooks();
+    getAllIssues();
 
     return () => {
       isSubscribed.current = false;
     };
   }, []);
 
-  // const dataSource = getRows();
-  // dataSource.forEach((data => {
-  //   // Change it when data from server
-  //   const canBeIssued = true;
-  //   if (canBeIssued) {
-  //     data.issue = (
-  //       <PrimaryButton
-  //         content="Issue"
-  //         data={data}
-  //         onClick={() => {
-  //           // setIsModalOpen(true);
-  //           getBooks().then(response => {
-  //             console.log(response.data.data);
-  //           });
-  //           // getIssues().then(response => {
-  //           //   console.log(response.data.data);
-  //           // });
-  //           // createBook(9788184003482).then(response => {
-  //           //   console.log(response.data.data);
-  //           // });;
-  //         }}
-  //       />
-  //     )
-  //   }
-  // }));
-
   const buttonProps = {
-    onClick: () => {
+    onClick: (e, rowData) => {
       setIsModalOpen(true);
-      getBooks().then(response => {
-        console.log(response.data.data);
-      });
+      setCurrentRow(rowData);
+      // getBooks().then(response => {
+      //   console.log(response.data.data);
+      // });
       // getIssues().then(response => {
       //   console.log(response.data.data);
       // });
@@ -138,10 +127,6 @@ export default (props) => {
       {isModalOpen && (
         <Modal
           visible={isModalOpen}
-          user={user}
-          onOk={() => {
-            setIsModalOpen(false);
-          }}
           onCancel={() => {
             setIsModalOpen(false);
           }}
@@ -151,16 +136,19 @@ export default (props) => {
               <div>From Date</div>
               <DatePicker
                 disabled={true}
-                value={new Date()}
+                defaultValue={new Date()}
               />
               <div>To Date</div>
               <DatePicker
-                value={ONE_MONTH_LATER_DATE}
+                defaultValue={ONE_MONTH_LATER_DATE}
               />
             </IssueBook>
             <IssueButtonContainer>
               <PrimaryButton
                 content="Issue Book"
+                onClick={(toDate) => {
+                  createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
+                }}
               />
             </IssueButtonContainer>
           </Fragment>
