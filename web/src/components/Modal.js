@@ -12,6 +12,7 @@ export default React.memo((props) => {
         visible={visible}
         onOk={onOk}
         onCancel={onCancel}
+        footer={null}
       >
         {props.children}
       </Modal>

@@ -3,17 +3,15 @@ import { Button } from 'antd';
 
 
 export default (props) => {
-  const {data, openModal} = props;
+  const { onClick, content } = props;
   return (
     <Fragment>
       <Button
         type="primary"
-        onClick={() => {
-          openModal(data);
-        }}
+        onClick={onClick}
       >
-        Issue
-        </Button>
+        {content}
+      </Button>
     </Fragment>
   );
 }

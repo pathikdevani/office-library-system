@@ -18,7 +18,9 @@ function Dashboard(props) {
   if (!user) {
     return <div>Loading...</div>;
   }
-  const page = user.role === 'admin' ? (<AdminPage/>) : (<UserPage />);
+  const page = user.role === 'admin'
+    ? (<AdminPage user={user} />)
+    : (<UserPage user={user} />);
 
 
   return (

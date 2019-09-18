@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import PrimaryButton from '../components/PrimaryButton';
 
 export const getRows = () => {
   const dataSource = [
@@ -20,16 +21,26 @@ export const getRows = () => {
 }
 
 
-export const getColumns = (Renderer) => [
+export const getColumns = (buttonProps) => [
   { title: 'Book title', field: 'title', type: 'string' },
   { title: 'Author', field: 'author', type: 'string' },
   // { title: 'Book Owner', field: 'bookOwner' },
   { title: 'Status', field: 'status', type: 'string' },
-  // { title: 'Issue', field: 'issue', render: (<Renderer/>) },
   {
     title: 'Issue', field: 'issue',
-    render: () => (
-      <div>ABCD</div>
-    )
+    render: (rowData) => {
+      const canBeIssued = true;
+
+      return (
+        <Fragment>
+          {canBeIssued && (
+            <PrimaryButton
+              content="Issue"
+              onClick={buttonProps.onClick}
+            />
+          )}
+        </Fragment>
+      );
+    }
   },
 ];
