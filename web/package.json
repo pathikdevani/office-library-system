@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.4.2",
     "antd": "*",
     "axios": "*",
     "babel-plugin-import": "*",
@@ -13,6 +14,7 @@
     "less": "*",
     "less-loader": "*",
     "lodash": "*",
+    "material-table": "^1.50.0",
     "moment": "^2.24.0",
     "react": "*",
     "react-app-rewired": "*",
@@ -29,8 +31,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "precommit": "NODE_ENV=production lint-staged"
+    "eject": "react-app-rewired eject"
   },
   "lint-staged": {
     "*.{js,jsx}": [
