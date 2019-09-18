@@ -14,11 +14,11 @@ function getDetailFromApi(isbn, googleBookApi) {
     title,
     subtitle,
     description,
-    page_count: pageCount,
+    pageCount,
     categories,
     authors,
     publisher,
-    published_date: publishedDate,
+    publishedDate,
   };
 }
 
