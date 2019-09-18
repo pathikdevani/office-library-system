@@ -13,6 +13,7 @@
     "less": "*",
     "less-loader": "*",
     "lodash": "*",
+    "moment": "^2.24.0",
     "react": "*",
     "react-app-rewired": "*",
     "react-dom": "*",

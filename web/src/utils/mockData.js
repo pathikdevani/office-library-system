@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Button } from 'antd';
 import getColumnSearchProps from '../../src/utils/getColumnSearchProps';
+import api from '../api';
 
 export const getRows = () => {
   const dataSource = [
@@ -17,19 +17,12 @@ export const getRows = () => {
       bookOwner: 'God',
     },
   ];
-  dataSource.forEach((data => {
-    // Change it when data from server
-    const canBeIssued = true;
-    if (canBeIssued) {
-      data.issue = (
-        <Fragment>
-          <Button type="primary">
-            Issue
-        </Button>
-        </Fragment>
-      )
-    }
-  }));
+
+  api.get('/getUsers')
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => { console.log(error) });
   return dataSource;
 }
 
