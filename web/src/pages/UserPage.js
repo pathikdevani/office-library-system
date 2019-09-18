@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Table from '../components/Table';
 import TabView from '../components/TabView';
 import { getRows, getColumns } from '../utils/mockData';
+import { Button } from 'antd';
 
 
 export default () => {
