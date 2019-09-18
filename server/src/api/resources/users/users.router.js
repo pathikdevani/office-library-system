@@ -23,4 +23,13 @@ router.get('/signout', auth, (req, res) => {
   successResponse(res, { data: 'ok' });
 });
 
+router.get('/', (req, res) => {
+  request.getAllUsers(req, res)
+    .then((users) => {
+      res.send({
+        data: users,
+      });
+    });
+});
+
 module.exports = router;

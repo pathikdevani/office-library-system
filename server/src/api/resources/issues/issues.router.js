@@ -4,6 +4,7 @@ const router = require('express').Router();
 const request = require('./issues.request');
 const errorResponse = require('../../response/error.response');
 const Books = require('../books/books.model');
+const Users = require('../users/users.model');
 
 router
   .get(
@@ -41,18 +42,18 @@ router
   .post(
     '/',
     (req, res) => {
-      const { bookId, employeeId, dueDate } = req.body;
+      const { bookId, userId, dueDate } = req.body;
       if (!bookId) {
         errorResponse(res, 500, {
           code: 'NO_BOOK_ID',
         });
       }
 
-      // if (!employeeId) {
-      //   errorResponse(res, 500, {
-      //     code: 'NO_EMPLOYEE_ID',
-      //   });
-      // }
+      if (!userId) {
+        errorResponse(res, 500, {
+          code: 'NO_USER_ID',
+        });
+      }
 
       if (!dueDate) {
         errorResponse(res, 500, {
@@ -65,17 +66,29 @@ router
         .findById(bookId)
         .then((book) => {
           if (book) {
-            return Promise.resolve;
+            return Promise.resolve();
           }
           return Promise.reject({
             msg: 'BOOK_NOT_FOUND',
           });
         })
         .then(() => {
+          return Users
+            .findById(userId)
+            .then((user) => {
+              if (user) {
+                return Promise.resolve();
+              }
+              return Promise.reject({
+                msg: 'USER_NOT_FOUND',
+              });
+            });
+        })
+        .then(() => {
           return request.insertIssue({
             bookId,
-            employeeId,
-            dueDate: new Date(dueDate),
+            userId,
+            dueDate: new Date(),
             issuedAt: new Date(),
             isReturned: false,
           });
@@ -116,9 +129,7 @@ router
           });
         })
         .then(() => {
-          return request.findOneAndUpdate({
-            _id: id,
-          }, {
+          return request.updateById(id, {
             isReturned: true,
             returnedAt: new Date(),
           });
@@ -136,6 +147,7 @@ router
         })
         .then(savedIssue => res.send(savedIssue))
         .catch((err) => {
+          console.log(err);
           errorResponse(res, 500, {
             code: err,
           });

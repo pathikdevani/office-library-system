@@ -2,6 +2,7 @@ const passport = require('passport');
 
 const signinErrorResponse = require('../../response/signin.error.response');
 const successResponse = require('../../response/success.response');
+const Users = require('./users.model');
 
 class UsersRequest {
   static signin(req, res, next) {
@@ -20,6 +21,10 @@ class UsersRequest {
         return successResponse(res, { data: user });
       });
     })(req, res, next);
+  }
+
+  static getAllUsers() {
+    return Users.find({});
   }
 }
 

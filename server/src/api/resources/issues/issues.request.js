@@ -13,6 +13,12 @@ class UsersRequest {
   static insertIssue(issueDetail) {
     return Issues.create(issueDetail);
   }
+
+  static updateById(id, updateData) {
+    return Issues.findOneAndUpdate({
+      _id: id,
+    }, updateData);
+  }
 }
 
 

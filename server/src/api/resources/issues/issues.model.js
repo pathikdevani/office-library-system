@@ -6,7 +6,7 @@ const schema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    employeeId: {
+    userId: {
       type: String,
       required: true,
     },
