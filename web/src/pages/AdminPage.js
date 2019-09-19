@@ -28,6 +28,7 @@ export default () => {
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
   const noOfBookRef = useRef(1);
+  const [response, setResponse] = useState(null);
 
   const userTabs = [{
     tab: 'All books',
@@ -50,6 +51,7 @@ export default () => {
     ),
   }];
 
+
   return (
     <Fragment>
       <ButtonContainer>
@@ -62,6 +64,7 @@ export default () => {
       </ButtonContainer>
       <CommonTableDisplay
         role="Admin"
+        response={response}
       />
 
       {isAddBookModalOpen && (
@@ -96,6 +99,8 @@ export default () => {
                   createBook({
                     isbn: inputRef.current,
                     quantity: noOfBookRef.current
+                  }).then((response) => {
+                    setResponse(response);
                   });
                   setIsAddBookModalOpen(false);
                 }}

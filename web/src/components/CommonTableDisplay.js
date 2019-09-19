@@ -24,7 +24,7 @@ const IssueButtonContainer = styled.div`
 
 
 export default (props) => {
-  const { user, role } = props;
+  const { user, role, response } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
@@ -61,6 +61,7 @@ export default (props) => {
       setAllBooks(response.data.data);
     }
   };
+
   const getAllIssues = async () => {
     const response = await getIssues();
     if (isSubscribed.current) {
@@ -77,7 +78,7 @@ export default (props) => {
     return () => {
       isSubscribed.current = false;
     };
-  }, []);
+  }, [response]);
 
   const buttonProps = {
     onClick: (e, rowData) => {
