@@ -9,6 +9,7 @@ import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
 import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import { isAdmin } from '../utils/commonUtils';
+import img from '../../src/images/background.JPG';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -24,16 +25,19 @@ const IssueButtonContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  text-align: right;
-  margin-right: 40px;
-  margin-top: 20px;
+  position: absolute;
+  right: 40px;
+  top: 85px;
   justify-content: flex-end;
 `;
 const Header = styled.div`
-  margin-top: 100px;
+  /* margin-top: 100px; */
 `;
 
+const Container = styled.div`
+  background-image: url(${img});
+  background-size: contain;
+`;
 
 
 export default (props) => {
@@ -143,6 +147,7 @@ export default (props) => {
 
   return (
     <Fragment>
+      <Container>
       <Header>
         Hello {role}!
       <ButtonContainer>
@@ -157,11 +162,9 @@ export default (props) => {
           />
         </ButtonContainer>
       </Header>
-
       <TabView
         tabs={userTabs}
       />
-
       {isModalOpen && (
         <Modal
           title="Issue Book"
@@ -193,6 +196,7 @@ export default (props) => {
           </Fragment>
         </Modal>
       )}
+      </Container>
     </Fragment>
   );
 }

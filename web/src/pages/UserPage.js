@@ -6,6 +6,7 @@ import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import CommonTableDisplay from '../components/CommonTableDisplay';
+import IManageLogo from '../images/Imanagelogo';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -18,6 +19,16 @@ const IssueBook = styled.div`
 const IssueButtonContainer = styled.div`
   text-align: right;
   margin: 10px;
+`;
+
+const LogoContainer = styled.div`
+  /* position: absolute; */
+  left: 0;
+  margin-top: -48px;
+  top: 0;
+  height: 125px;
+  width: 100%;
+  background: white;
 `;
 
 const ButtonContainer = styled.div`
@@ -124,6 +135,9 @@ export default (props) => {
 
   return (
     <div>
+      <LogoContainer>
+        <IManageLogo />
+      </LogoContainer>
       <CommonTableDisplay
         role="User"
         user={user}
