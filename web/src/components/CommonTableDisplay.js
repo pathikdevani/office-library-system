@@ -22,9 +22,17 @@ const IssueButtonContainer = styled.div`
   margin: 10px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 20px;
+  justify-content: flex-end;
+`;
+
 
 export default (props) => {
-  const { user, role, response } = props;
+  const { user, role, response, setIsAddBookModalOpen } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
@@ -100,11 +108,21 @@ export default (props) => {
     tab: 'All books',
     key: 1,
     content: (
+      <div>
+      <ButtonContainer>
+        <PrimaryButton
+          content="Add Book"
+          onClick={() => {
+            setIsAddBookModalOpen(true);
+          }}
+        />
+      </ButtonContainer>
       <Table
         dataSource={mapBookData(allBooks)}
         columns={getColumns(buttonProps)}
         title="All books"
       />
+      </div>
     ),
   }, {
     tab: 'Issued books',

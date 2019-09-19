@@ -7,7 +7,7 @@ import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks, createIssue, getIssues } from '../apiMethods';
+import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 
 const date = new Date();
@@ -23,6 +23,13 @@ const IssueButtonContainer = styled.div`
   margin: 10px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  text-align: right;
+  margin-right: 40px;
+  margin-top: 40px;
+  justify-content: flex-end;
+`;
 
 export default (props) => {
   const { user } = props;
@@ -119,8 +126,21 @@ export default (props) => {
   }];
 
   return (
+    <div>
+      <ButtonContainer>
+        <PrimaryButton
+          content="Logout"
+          onClick={() => {
+            logout().then((res) => {
+              window.location = '/';
+            });
+
+          }}
+        />
+      </ButtonContainer>
     <CommonTableDisplay
       role="User"
     />
+    </div>
   );
 }

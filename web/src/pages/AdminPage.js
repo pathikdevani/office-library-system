@@ -7,7 +7,9 @@ import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import { Input } from 'antd';
-import { createBook } from '../apiMethods';
+import { createBook, logout } from '../apiMethods';
+
+
 
 
 const AddButtonContainer = styled.div`
@@ -22,6 +24,7 @@ const ButtonContainer = styled.div`
   margin-top: 40px;
   justify-content: flex-end;
 `;
+
 export default () => {
   const dataSource = getRows();
   const columns = getColumns();
@@ -55,15 +58,23 @@ export default () => {
     <Fragment>
       <ButtonContainer>
         <PrimaryButton
-          content="Add Book"
+          content="Logout"
           onClick={() => {
-            setIsAddBookModalOpen(true);
+            logout().then((res) => {
+              window.location = '/';
+            });
+
           }}
         />
       </ButtonContainer>
       <CommonTableDisplay
         role="Admin"
         response={response}
+        setIsAddBookModalOpen={
+          (value)=>{
+            setIsAddBookModalOpen(value);
+          }
+        }
       />
 
       {isAddBookModalOpen && (

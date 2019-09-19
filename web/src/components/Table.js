@@ -27,7 +27,7 @@ const TableWrapper = styled.div`
 `;
 
 export default React.memo((props) => {
-  const { dataSource, columns, title, } = props;
+  const { dataSource, columns, title, showAddButton } = props;
   const [rows, setRows] = useState(dataSource);
 
   useEffect(() => {

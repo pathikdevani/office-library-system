@@ -38,3 +38,7 @@ export const createIssue = (bookId, userId, dueDate) => {
     dueDate,
   });
 };
+
+export const logout = (id) => {
+  return api.get(`${apiURL}/users/signout`);
+};
