@@ -8,6 +8,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
 import { getBooks, createIssue, getIssues } from '../apiMethods';
+import { isAdmin } from '../utils/commonUtils';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -108,21 +109,21 @@ export default (props) => {
     tab: 'All books',
     key: 1,
     content: (
-      <div>
-      <ButtonContainer>
-        <PrimaryButton
-          content="Add Book"
-          onClick={() => {
-            setIsAddBookModalOpen(true);
-          }}
+      <Fragment>
+        {isAdmin(role) && (<ButtonContainer>
+          <PrimaryButton
+            content="Add Book"
+            onClick={() => {
+              setIsAddBookModalOpen(true);
+            }}
+          />
+        </ButtonContainer>)}
+        <Table
+          dataSource={mapBookData(allBooks)}
+          columns={getColumns(buttonProps, role)}
+          title="All books"
         />
-      </ButtonContainer>
-      <Table
-        dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps, role)}
-        title="All books"
-      />
-      </div>
+      </Fragment>
     ),
   }, {
     tab: 'Issued books',
