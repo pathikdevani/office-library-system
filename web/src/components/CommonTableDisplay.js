@@ -27,7 +27,7 @@ const IssueButtonContainer = styled.div`
 const ButtonContainer = styled.div`
   position: absolute;
   right: 40px;
-  top: 85px;
+  top: 65px;
   justify-content: flex-end;
 `;
 const Header = styled.div`
@@ -166,7 +166,7 @@ export default (props) => {
       <Header>
         <UserName>
           <TextContainer>
-            Hello {user.fname}!
+            Hello {role==='Admin'? 'Admin':user.fname}!
           </TextContainer>
         </UserName>
       <ButtonContainer>
