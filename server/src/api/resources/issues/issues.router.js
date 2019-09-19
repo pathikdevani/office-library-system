@@ -2,41 +2,52 @@
 const router = require('express').Router();
 
 const request = require('./issues.request');
+const auth = require('../../modules/auth.module');
 const errorResponse = require('../../response/error.response');
 const Books = require('../books/books.model');
 const Users = require('../users/users.model');
 
-router
-  .get(
-    '/',
-    (req, res) => {
-      request.getAllIssues(req, res)
-        .then((issues) => {
-          res.send({
-            data: issues,
-          });
-        });
-    },
-  );
+router.get('/', auth, (req, res) => {
+  request.getAllIssues(req, res)
+    .then((issues) => {
+      res.send({
+        data: issues,
+      });
+    });
+});
 
-router
-  .get(
-    '/:id',
-    (req, res) => {
-      if (req.params.id) {
-        request.getIssueById(req.params.id)
-          .then((issue) => {
-            res.send({
-              data: issue,
-            });
-          });
-      } else {
-        errorResponse(res, 404, {
-          code: 'NO_ISSUE_ID',
+
+router.get('/my', auth, (req, res) => {
+  request.getMyIssue(req.user.id)
+    .then((issue) => {
+      res.send({
+        data: issue,
+      });
+    }).catch((err) => {
+      errorResponse(res, 500, {
+        code: err,
+      });
+    });
+});
+
+router.get('/:id', auth, (req, res) => {
+  if (req.params.id) {
+    request.getIssueById(req.params.id)
+      .then((issue) => {
+        res.send({
+          data: issue,
         });
-      }
-    },
-  );
+      }).catch((err) => {
+        errorResponse(res, 500, {
+          code: err,
+        });
+      });
+  } else {
+    errorResponse(res, 404, {
+      code: 'NO_ISSUE_ID',
+    });
+  }
+});
 
 router
   .post(

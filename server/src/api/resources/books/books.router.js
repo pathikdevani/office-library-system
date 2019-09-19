@@ -29,12 +29,17 @@ function getDetailFromApi(isbn, googleBookApi, quantity) {
 router.get(
   '/',
   (req, res) => {
-    request.getAllBooks(req, res)
-      .then((books) => {
+    request.getAllBooks((err, books) => {
+      if (err) {
+        errorResponse(res, (err.status || 500), {
+          code: err,
+        });
+      } else {
         res.send({
           data: books,
         });
-      });
+      }
+    });
   },
 );
 

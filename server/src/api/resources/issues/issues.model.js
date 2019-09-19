@@ -11,7 +11,8 @@ const schema = new mongoose.Schema(
       required: true,
     },
     bookId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'books',
       required: true,
     },
     dueDate: {
