@@ -10,8 +10,8 @@ import Loading from './components/utils/Loading';
 import userRequests from './requests/user.requests';
 import authActions from './actions/auth.actions';
 import globalActions from './actions/global.actions';
-import Login from '../src/pages/Login/Login';
-import Dashboard from '../src/pages/Dashboard/Dashboard';
+import Login from './pages/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 const Container = styled.div`
   position: relative;
@@ -65,7 +65,7 @@ function App(props) {
                   noAuth
                   to="/"
                 />
-                <ProtectedRoute path="/" component={Dashboard} to="/login" /> */}
+                <ProtectedRoute path="/" component={Dashboard} to="/login" />
               </Switch>
             </Fragment>
           </Router>
