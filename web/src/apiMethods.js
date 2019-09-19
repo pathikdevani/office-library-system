@@ -12,9 +12,10 @@ export const getBookById = (id) => {
   return api.get(`${apiURL}/books/${id}`);
 };
 
-export const createBook = (isbn) => {
+export const createBook = ({isbn, quantity}) => {
   return api.post(`${apiURL}/books`, {
     isbn,
+    quantity
   });
 };
 

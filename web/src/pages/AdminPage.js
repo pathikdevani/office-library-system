@@ -6,7 +6,7 @@ import { getRows, getColumns } from '../utils/mockData';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 import { createBook } from '../apiMethods';
 
 
@@ -27,6 +27,7 @@ export default () => {
   const columns = getColumns();
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
+  const noOfBookRef = useRef(1);
 
   const userTabs = [{
     tab: 'All books',
@@ -72,18 +73,30 @@ export default () => {
           }}
         >
           <Fragment>
+          <div style={{marginTop:5}}>Add ISBN no of Book:</div>
             <Input
               placeholder="Add ISBN"
               onChange={(e) => {
                 inputRef.current = e.target.value;
               }}
             />
+            <div style={{marginTop:20}}>No of books:</div>
+            <InputNumber
+              placeholder="No of Books"
+              min={1}
+              defaultValue={1}
+              onChange={(e) => {
+                noOfBookRef.current = e;
+              }}
+            />
             <AddButtonContainer>
               <PrimaryButton
                 content="Add Book"
                 onClick={() => {
-                  console.log(inputRef.current);
-                  createBook(inputRef.current);
+                  createBook({
+                    isbn: inputRef.current,
+                    quantity: noOfBookRef.current
+                  });
                   setIsAddBookModalOpen(false);
                 }}
               />
