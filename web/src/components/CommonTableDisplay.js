@@ -59,7 +59,7 @@ const TextContainer = styled.div`
 const Container = styled.div`
   background-image: url(${img});
   background-size: contain;
-  padding-bottom:550px;
+  padding-bottom:50px;
 `;
 
 
