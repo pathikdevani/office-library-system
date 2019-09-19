@@ -1,15 +1,12 @@
 import React, { Fragment, useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import Table from '../components/Table';
-import { getRows, getColumns } from '../utils/mockData';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import { Input, InputNumber } from 'antd';
 import { createBook, logout } from '../apiMethods';
-
-
+import Imanagelogo from '../images/Imanagelogo';
 
 
 const AddButtonContainer = styled.div`
@@ -25,9 +22,18 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-export default () => {
+const LogoContainer = styled.div`
+  position: absolute;
+  left: 0;
+  margin-top: -48px;
+  top: 0;
+`;
+
+export default (props) => {
+  const { user } = props;
   // const dataSource = getRows();
   // const columns = getColumns();
+
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
   const noOfBookRef = useRef(1);
@@ -58,6 +64,9 @@ export default () => {
   return (
     <Fragment>
       <ButtonContainer>
+        <LogoContainer>
+          <Imanagelogo/>
+        </LogoContainer>
         <PrimaryButton
           content="Logout"
           onClick={() => {
@@ -71,6 +80,7 @@ export default () => {
       <CommonTableDisplay
         role="Admin"
         response={response}
+        user={user}
         setIsAddBookModalOpen={
           (value)=>{
             setIsAddBookModalOpen(value);
