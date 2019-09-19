@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+import styled from 'styled-components';
 import Table from '../components/Table';
 import { getColumns } from '../utils/mockData';
 import { getBooks, getMyIssues } from '../apiMethods';
