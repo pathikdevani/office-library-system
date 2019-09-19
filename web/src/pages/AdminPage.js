@@ -1,8 +1,6 @@
 import React, { Fragment, useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import Table from '../components/Table';
-import { getRows, getColumns } from '../utils/mockData';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
@@ -31,34 +29,36 @@ const LogoContainer = styled.div`
   top: 0;
 `;
 
-export default () => {
-  const dataSource = getRows();
-  const columns = getColumns();
+export default (props) => {
+  const { user } = props;
+  // const dataSource = getRows();
+  // const columns = getColumns();
+
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
   const noOfBookRef = useRef(1);
   const [response, setResponse] = useState(null);
 
-  const userTabs = [{
-    tab: 'All books',
-    key: 1,
-    content: (
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-      />
-    ),
-  }, {
-    tab: 'Employers',
-    key: 2,
-    content: (
-      <Table
-        // Filter this data
-        dataSource={dataSource}
-        columns={columns}
-      />
-    ),
-  }];
+  // const userTabs = [{
+  //   tab: 'All books',
+  //   key: 1,
+  //   content: (
+  //     <Table
+  //       dataSource={dataSource}
+  //       columns={columns}
+  //     />
+  //   ),
+  // }, {
+  //   tab: 'Employers',
+  //   key: 2,
+  //   content: (
+  //     <Table
+  //       // Filter this data
+  //       dataSource={dataSource}
+  //       columns={columns}
+  //     />
+  //   ),
+  // }];
 
 
   return (
@@ -80,6 +80,7 @@ export default () => {
       <CommonTableDisplay
         role="Admin"
         response={response}
+        user={user}
         setIsAddBookModalOpen={
           (value)=>{
             setIsAddBookModalOpen(value);

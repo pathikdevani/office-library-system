@@ -22,7 +22,6 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 
 const TableWrapper = styled.div`
   margin: 50px;
-  border: 1px solid grey;
   padding: 5px;
 `;
 

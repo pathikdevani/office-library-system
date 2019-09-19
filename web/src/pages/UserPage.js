@@ -1,12 +1,9 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import Table from '../components/Table';
-import TabView from '../components/TabView';
 import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
-import Modal from '../components/Modal';
-import DatePicker from '../components/DatePicker';
 import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 
@@ -140,6 +137,7 @@ export default (props) => {
       </ButtonContainer>
     <CommonTableDisplay
       role="User"
+      user={user}
     />
     </div>
   );
