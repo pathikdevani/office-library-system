@@ -59,7 +59,7 @@ const TextContainer = styled.div`
 const Container = styled.div`
   background-image: url(${img});
   background-size: contain;
-  padding-bottom:50px;
+  padding-bottom:550px;
 `;
 
 
@@ -127,7 +127,7 @@ export default (props) => {
     },
     onIssue: (e, rowData) => {
       setIsModalOpen(true);
-      // setCurrentRow(rowData);
+      setCurrentRow(rowData);
 
       // getBooks().then(response => {
       //   console.log(response.data.data);
@@ -221,6 +221,7 @@ export default (props) => {
               <PrimaryButton
                 content="Issue Book"
                 onClick={(toDate) => {
+                  debugger;
                   createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
                   getAllBooks();
                   setIsModalOpen(false);

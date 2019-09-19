@@ -93,7 +93,7 @@ export default (props) => {
     },
     onIssue: (e, rowData) => {
       setIsModalOpen(true);
-      // setCurrentRow(rowData);
+      setCurrentRow(rowData);
       // getBooks().then(response => {
       //   console.log(response.data.data);
       // });
