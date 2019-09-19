@@ -11,6 +11,11 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    quantity: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
     subtitle: {
       type: String,
     },
