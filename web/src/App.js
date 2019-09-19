@@ -13,7 +13,7 @@ import globalActions from './actions/global.actions';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import img from '../src/images/login.JPG';
-import imgLogin from '../src/images/background.JPG';
+
 
 const Container = styled.div`
   position: relative;
@@ -28,9 +28,6 @@ const Container = styled.div`
   ${({ show }) => show && css`
     pointer-events: none;
     opacity: .2;
-  `}
-  ${({ isLogin }) => isLogin && css`
-    background-image: url(${imgLogin});
   `}
 `;
 

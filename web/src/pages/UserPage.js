@@ -1,39 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 
+import styled from 'styled-components';
 import Table from '../components/Table';
 import { getColumns } from '../utils/mockData';
-import PrimaryButton from '../components/PrimaryButton';
-import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
+import { getBooks, getMyIssues } from '../apiMethods';
 import CommonTableDisplay from '../components/CommonTableDisplay';
+import IManageLogo from '../images/Imanagelogo';
 
 const date = new Date();
-const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
-const IssueBook = styled.div`
-  display: flex;
-  text-align: left;
-  align-items: center;
+
+const LogoContainer = styled.div`
+  /* position: absolute; */
+  left: 0;
+  margin-top: -48px;
+  top: 0;
+  height: 125px;
+  width: 100%;
+  background: white;
 `;
 
-const IssueButtonContainer = styled.div`
-  text-align: right;
-  margin: 10px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  text-align: right;
-  margin-right: 40px;
-  margin-top: 40px;
-  justify-content: flex-end;
-`;
 
 export default (props) => {
   const { user } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [allBooks, setAllBooks] = useState([], getAllBooks());
   const [allBooks, setAllBooks] = useState([]);
-  const [issues, setAllIssues] = useState([]);
+  const [myIssues, setMyIssues] = useState([]);
   const [currentRow, setCurrentRow] = useState([]);
   const isSubscribed = useRef();
 
@@ -63,21 +55,22 @@ export default (props) => {
   const getAllBooks = async () => {
     const response = await getBooks();
     if (isSubscribed.current) {
+      console.log('getAllBooks', response.data.data);
       setAllBooks(response.data.data);
     }
   };
-  const getAllIssues = async () => {
-    const response = await getIssues();
+  const getUserIssues = async () => {
+    const response = await getMyIssues();
     if (isSubscribed.current) {
-      console.log(response.data.data);
-      setAllIssues(response.data.data);
+      console.log('getAllIssues', response.data.data);
+      setMyIssues(response.data.data);
     }
   };
 
   useEffect(() => {
     isSubscribed.current = true;
     getAllBooks();
-    getAllIssues();
+    getUserIssues();
 
     return () => {
       isSubscribed.current = false;
@@ -124,6 +117,9 @@ export default (props) => {
 
   return (
     <div>
+      <LogoContainer>
+        <IManageLogo />
+      </LogoContainer>
       <CommonTableDisplay
         role="User"
         user={user}

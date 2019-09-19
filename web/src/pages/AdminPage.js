@@ -14,20 +14,14 @@ const AddButtonContainer = styled.div`
   margin: 10px;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  text-align: right;
-  margin-right: 40px;
-  margin-top: 40px;
-  justify-content: flex-end;
-`;
-
 const LogoContainer = styled.div`
-  position: absolute;
+  /* position: absolute; */
   left: 0;
   margin-top: -48px;
   top: 0;
-  height: 100px;
+  height: 125px;
+  width: 100%;
+  background: white;
 `;
 
 export default (props) => {

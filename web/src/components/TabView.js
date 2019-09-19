@@ -9,7 +9,9 @@ const { TabPane } = Tabs;
 const StyledTabs = styled(Tabs)`
   margin-left: 50px !important;
   margin-right: 50px !important;
+  margin-top: 30px !important;
   border: 1px solid grey;
+  background: rgba(255,255,255,0.9);
 `;
 
 

@@ -9,6 +9,7 @@ import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
 import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import { isAdmin } from '../utils/commonUtils';
+import img from '../../src/images/background.JPG';
 
 const date = new Date();
 const ONE_MONTH_LATER_DATE = new Date(date.setDate(date.getDate() + 30));
@@ -23,17 +24,43 @@ const IssueButtonContainer = styled.div`
   margin: 10px;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  text-align: right;
-  margin-right: 40px;
-  margin-top: 20px;
+const ButtonContainerLogout = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 85px;
   justify-content: flex-end;
 `;
-const Header = styled.div`
-  margin-top: 100px;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 65px;
+  justify-content: flex-end;
 `;
 
+const Header = styled.div`
+  /* margin-top: 100px; */
+`;
+
+const UserName = styled.div`
+  color: white;
+  height: 20px;
+  margin-left: 100px;
+  /* margin-top: 10px; */
+`;
+
+const TextContainer = styled.div`
+  position: absolute;
+  margin-top: 2px;
+  margin-left: -40px;
+  font-size: 30px;
+`;
+
+const Container = styled.div`
+  background-image: url(${img});
+  background-size: contain;
+  padding-bottom:50px;
+`;
 
 
 export default (props) => {
@@ -143,9 +170,14 @@ export default (props) => {
 
   return (
     <Fragment>
+      <Container>
       <Header>
-        Hello {role}!
-      <ButtonContainer>
+        <UserName>
+          <TextContainer>
+            Hello {role==='Admin'? 'Admin':user.fname}!
+          </TextContainer>
+        </UserName>
+      <ButtonContainerLogout>
           <PrimaryButton
             content="Logout"
             onClick={() => {
@@ -155,13 +187,11 @@ export default (props) => {
 
             }}
           />
-        </ButtonContainer>
+        </ButtonContainerLogout>
       </Header>
-
       <TabView
         tabs={userTabs}
       />
-
       {isModalOpen && (
         <Modal
           title="Issue Book"
@@ -193,6 +223,7 @@ export default (props) => {
           </Fragment>
         </Modal>
       )}
+      </Container>
     </Fragment>
   );
 }
