@@ -7,7 +7,7 @@ import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks, createIssue, getIssues, logout, getMyIssues } from '../apiMethods';
+import { getBooks, createIssue, getIssues, logout, getMyIssues, returnBook } from '../apiMethods';
 import { isAdmin } from '../utils/commonUtils';
 import img from '../../src/images/background.JPG';
 
@@ -67,6 +67,7 @@ export default (props) => {
   const { user, role, response, setIsAddBookModalOpen, isModalOpen, setIsModalOpen } = props;
   const [allBooks, setAllBooks] = useState([]);
   const [myIssues, setMyIssues] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
   // const [allIssues, setAllIssues] = useState([]);
   const [tab, setTab] = useState([]);
   const [currentRow, setCurrentRow] = useState([]);
@@ -96,33 +97,30 @@ export default (props) => {
   }
 
   const mapIssuedBookData = (dataSource) => {
-    if (dataSource.length > 0 && allBooks.length > 0) {
-      const allIssues = [].concat.apply([], dataSource.map(book => book.issues));
-      console.log(allIssues);
-
-      return allIssues.map(book => {
-        const b1 = dataSource.find((b) => {
-          if (typeof book === 'undefined') {
-            console.log(allIssues, book)
-            debugger;
-          }
+    if (dataSource.length > 0 && myBooks.length > 0) {
+      return dataSource.map(book => {
+        const relatedBook = myBooks.find((b) => {
           return b._id === book.bookId
         });
-        return {
-          id: book.bookId,
-          isbn: b1.isbn,
-          categories: b1.categories,
-          title: b1.title,
-          author: b1.authors && b1.authors.length > 0
-            ? b1.authors.reduce((author1, author2) => {
-              return `${author1}, ${author2}`;
-            })
-            : '',
-          status: '',
-          // Check this
-          issueStatus: '',
-          // issue: 'issue',
+        if(relatedBook) {
+          return {
+            issueId: book._id,
+            bookId: book.bookId,
+            isbn: relatedBook.isbn,
+            categories: relatedBook.categories,
+            title: relatedBook.title,
+            author: relatedBook.authors && relatedBook.authors.length > 0
+              ? relatedBook.authors.reduce((author1, author2) => {
+                return `${author1}, ${author2}`;
+              })
+              : '',
+            status: '',
+            // Check this
+            issueStatus: '',
+            // issue: 'issue',
+          }
         }
+        return;
       });
     }
     return [];
@@ -130,15 +128,13 @@ export default (props) => {
 
   const getAllBooks = async () => {
     const response = await getBooks();
-    console.log(response.data.data)
     if (isSubscribed.current) {
       const userBooks = response.data.data.filter((book, i) => {
         const userHasBook = book.issues.filter(issue => issue.userId === user.id && !issue.isReturned).length > 0
         return userHasBook;
       });
-      setMyIssues(userBooks);
       setAllBooks(response.data.data);
-
+      setMyBooks(userBooks);
     }
   };
 
@@ -161,19 +157,20 @@ export default (props) => {
 
   const buttonProps = {
     onDelete: (e, rowData) => {
-      // console.log('onDelete', rowData);
+      console.log('onDelete', rowData);
     },
     onEdit: (e, rowData) => {
-      // console.log('onEdit', rowData);
+      console.log('onEdit', rowData);
     },
     onIssue: (e, rowData) => {
       setIsModalOpen(true);
       setCurrentRow(rowData);
     },
     onReturn: (e, rowData) => {
-      // console.log(rowData);
-      // setIsModalOpen(true);
-      // setCurrentRow(rowData);
+      returnBook(rowData.issueId).then((response)=> {
+        getAllBooks();
+        getIssues();
+      });
     },
   };
 
@@ -263,8 +260,10 @@ export default (props) => {
                 <PrimaryButton
                   content="Issue Book"
                   onClick={(toDate) => {
-                    createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
-                    getAllBooks();
+                    createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE).then(() => {
+                      getAllBooks();
+                      getIssues();
+                    });
                     setIsModalOpen(false);
                   }}
                 />
