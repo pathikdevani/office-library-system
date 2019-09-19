@@ -13,9 +13,13 @@ import userRequests from '../../requests/user.requests';
 
 
 const Container = styled.div`
-  width: 300px;
+  width: 380px;
   margin: auto;
+  padding: 40px;
+  border-radius: 4px;
   margin-top: 100px;
+  margin: 1px solid;
+  background: white;
 
   ${media.ph`
     width: 100%;
