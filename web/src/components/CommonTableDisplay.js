@@ -24,12 +24,20 @@ const IssueButtonContainer = styled.div`
   margin: 10px;
 `;
 
+const ButtonContainerLogout = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 85px;
+  justify-content: flex-end;
+`;
+
 const ButtonContainer = styled.div`
   position: absolute;
   right: 40px;
   top: 65px;
   justify-content: flex-end;
 `;
+
 const Header = styled.div`
   /* margin-top: 100px; */
 `;
@@ -169,7 +177,7 @@ export default (props) => {
             Hello {role==='Admin'? 'Admin':user.fname}!
           </TextContainer>
         </UserName>
-      <ButtonContainer>
+      <ButtonContainerLogout>
           <PrimaryButton
             content="Logout"
             onClick={() => {
@@ -179,7 +187,7 @@ export default (props) => {
 
             }}
           />
-        </ButtonContainer>
+        </ButtonContainerLogout>
       </Header>
       <TabView
         tabs={userTabs}
