@@ -1,30 +1,7 @@
 const router = require('express').Router();
-const axios = require('axios');
 
 const request = require('./books.request');
 const errorResponse = require('../../response/error.response');
-
-function getDetailFromApi(isbn, googleBookApi, quantity) {
-  const {
-    title, subtitle, description, pageCount, categories, authors, publishedDate, publisher, imageLinks, previewLink, infoLink,
-  } = googleBookApi;
-
-  return {
-    isbn,
-    title,
-    subtitle,
-    description,
-    pageCount,
-    categories,
-    authors,
-    publisher,
-    publishedDate,
-    imageLinks,
-    previewLink,
-    infoLink,
-    quantity,
-  };
-}
 
 router.get(
   '/',
@@ -94,27 +71,9 @@ router.post(
       });
     }
 
-    axios
-      .get(`https://www.googleapis.com/books/v1/volumes?fields=items(volumeInfo)&q=isbn:${req.body.isbn}`)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          const { data } = response;
-
-          if (data.items && data.items.length) {
-            return data.items[0].volumeInfo;
-          }
-
-          // eslint-disable-next-line prefer-promise-reject-errors
-          return Promise.reject({
-            status: 404,
-            code: 'BOOK_NOT_FOUND',
-          });
-        }
-
-        return Promise.reject(response);
-      })
+    request.getBookDetailFromAPI(req.body.isbn)
       .then((googleBookDetail) => {
-        return request.insertBook(getDetailFromApi(req.body.isbn, googleBookDetail, req.body.quantity));
+        return request.insertBook(request.getBookDetailFromAPI(req.body.isbn, googleBookDetail, req.body.quantity));
       })
       .then((savedBook) => {
         return res.send(savedBook);
