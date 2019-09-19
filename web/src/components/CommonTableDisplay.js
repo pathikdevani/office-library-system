@@ -37,6 +37,7 @@ const Header = styled.div`
 const Container = styled.div`
   background-image: url(${img});
   background-size: contain;
+  padding-bottom:50px;
 `;
 
 
