@@ -27,6 +27,7 @@ export default () => {
   const columns = getColumns();
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
+  const [response, setResponse] = useState(null);
 
   const userTabs = [{
     tab: 'All books',
@@ -49,6 +50,7 @@ export default () => {
     ),
   }];
 
+
   return (
     <Fragment>
       <ButtonContainer>
@@ -61,6 +63,7 @@ export default () => {
       </ButtonContainer>
       <CommonTableDisplay
         role="Admin"
+        response={response}
       />
 
       {isAddBookModalOpen && (
@@ -82,8 +85,9 @@ export default () => {
               <PrimaryButton
                 content="Add Book"
                 onClick={() => {
-                  console.log(inputRef.current);
-                  createBook(inputRef.current);
+                  createBook(inputRef.current).then((response) => {
+                    setResponse(response);
+                  });
                   setIsAddBookModalOpen(false);
                 }}
               />
