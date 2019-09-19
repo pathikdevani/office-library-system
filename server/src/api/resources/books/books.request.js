@@ -13,6 +13,10 @@ class UsersRequest {
   static insertBook(bookDetail) {
     return Books.create(bookDetail);
   }
+
+  static updateBook(id, bookDetail = {}) {
+    return Books.findByIdAndUpdate(id, bookDetail);
+  }
 }
 
 
