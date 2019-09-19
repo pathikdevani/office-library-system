@@ -1,8 +1,6 @@
 import React, { Fragment, useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import Table from '../components/Table';
-import { getRows, getColumns } from '../utils/mockData';
 import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
@@ -25,7 +23,8 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-export default () => {
+export default (props) => {
+  const { user } = props;
   // const dataSource = getRows();
   // const columns = getColumns();
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
@@ -71,6 +70,7 @@ export default () => {
       <CommonTableDisplay
         role="Admin"
         response={response}
+        user={user}
         setIsAddBookModalOpen={
           (value)=>{
             setIsAddBookModalOpen(value);
