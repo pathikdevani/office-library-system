@@ -64,7 +64,7 @@ const Container = styled.div`
 
 
 export default (props) => {
-  const { user, role, response, setIsAddBookModalOpen, tabs, isModalOpen, setIsModalOpen } = props;
+  const { user, role, response, setIsAddBookModalOpen, isModalOpen, setIsModalOpen } = props;
   const [allBooks, setAllBooks] = useState([]);
   const [issues, setAllIssues] = useState([]);
   const [currentRow, setCurrentRow] = useState([]);
@@ -195,7 +195,7 @@ export default (props) => {
         </ButtonContainerLogout>
       </Header>
       <TabView
-        tabs={tabs}
+        tabs={userTabs}
       />
       {isModalOpen && (
         <Modal
