@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import CommonTableDisplay from '../components/CommonTableDisplay';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import { Input, InputNumber } from 'antd';
-import { createBook, logout } from '../apiMethods';
+import { createBook, getBooks, getIssues } from '../apiMethods';
 import IManageLogo from '../images/Imanagelogo';
 
 
@@ -24,15 +24,64 @@ const LogoContainer = styled.div`
   background: white;
 `;
 
+
 export default (props) => {
   const { user } = props;
-  // const dataSource = getRows();
-  // const columns = getColumns();
 
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
   const noOfBookRef = useRef(1);
   const [response, setResponse] = useState(null);
+
+  const [allBooks, setAllBooks] = useState([]);
+  const [allIssues, setAllIssues] = useState([]);
+  const isSubscribed = useRef();
+
+  const mapBookData = (dataSource) => {
+    if (dataSource.length > 0) {
+      return dataSource.map(book => {
+        return {
+          id: book._id,
+          isbn: book.isbn,
+          categories: book.categories,
+          title: book.title,
+          author: book.authors && book.authors.length > 0
+            ? book.authors.reduce((author1, author2) => {
+              return `${author1}, ${author2}`;
+            })
+            : '',
+          status: '',
+          // Check this
+          issueStatus: '',
+          // issue: 'issue',
+        }
+      });
+    }
+    return [];
+  }
+
+  const getAllBooks = async () => {
+    const response = await getBooks();
+    if (isSubscribed.current) {
+      setAllBooks(response.data.data);
+    }
+  };
+  const getAllIssues = async () => {
+    const response = await getIssues();
+    if (isSubscribed.current) {
+      setAllIssues(response.data.data);
+    }
+  };
+
+  useEffect(() => {
+    isSubscribed.current = true;
+    getAllBooks();
+    getAllIssues();
+
+    return () => {
+      isSubscribed.current = false;
+    };
+  }, []);
 
   // const userTabs = [{
   //   tab: 'All books',

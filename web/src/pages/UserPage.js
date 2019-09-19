@@ -19,6 +19,8 @@ const LogoContainer = styled.div`
   background: white;
 `;
 
+const role = 'user';
+
 
 export default (props) => {
   const { user } = props;
@@ -55,22 +57,27 @@ export default (props) => {
   const getAllBooks = async () => {
     const response = await getBooks();
     if (isSubscribed.current) {
-      console.log('getAllBooks', response.data.data);
+      const userBooks = response.data.data.filter((book, i) => {
+        const userHasBook = book.issues.filter(issue => issue.userId === user.id && !issue.isReturned).length > 0
+        return userHasBook;
+      });
+      debugger;
+      setMyIssues(userBooks);
       setAllBooks(response.data.data);
     }
   };
+  // console.log(myIssues);
   const getUserIssues = async () => {
     const response = await getMyIssues();
     if (isSubscribed.current) {
-      console.log('getAllIssues', response.data.data);
-      setMyIssues(response.data.data);
+      // setMyIssues(response.data.data);
     }
   };
 
   useEffect(() => {
     isSubscribed.current = true;
     getAllBooks();
-    getUserIssues();
+    // getUserIssues();
 
     return () => {
       isSubscribed.current = false;
@@ -78,9 +85,15 @@ export default (props) => {
   }, []);
 
   const buttonProps = {
-    onClick: (e, rowData) => {
+    onDelete:(e, rowData) => {
+      console.log('onDelete', rowData);
+    },
+    onEdit:(e, rowData) => {
+      console.log('onEdit', rowData);
+    },
+    onIssue: (e, rowData) => {
       setIsModalOpen(true);
-      setCurrentRow(rowData);
+      // setCurrentRow(rowData);
       // getBooks().then(response => {
       //   console.log(response.data.data);
       // });
@@ -99,7 +112,7 @@ export default (props) => {
     content: (
       <Table
         dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps)}
+        columns={getColumns(buttonProps, role)}
         title="All books"
       />
     ),
@@ -109,8 +122,8 @@ export default (props) => {
     content: (
       <Table
         // Filter this data
-        dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps)}
+        dataSource={mapBookData(myIssues)}
+        columns={getColumns(buttonProps, role)}
       />
     ),
   }];
@@ -121,8 +134,11 @@ export default (props) => {
         <IManageLogo />
       </LogoContainer>
       <CommonTableDisplay
+        tabs={userTabs}
         role="User"
         user={user}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
     </div>
   );

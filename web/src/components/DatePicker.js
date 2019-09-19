@@ -17,7 +17,7 @@ export default (props) => {
       format={dateFormat}
       disabled={disabled}
       onChange={(date, dateString) => {
-        console.log(date, dateString);
+        // console.log(date, dateString);
       }}
     />
   );

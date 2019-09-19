@@ -64,9 +64,7 @@ const Container = styled.div`
 
 
 export default (props) => {
-  const { user, role, response, setIsAddBookModalOpen } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [allBooks, setAllBooks] = useState([], getAllBooks());
+  const { user, role, response, setIsAddBookModalOpen, tabs, isModalOpen, setIsModalOpen } = props;
   const [allBooks, setAllBooks] = useState([]);
   const [issues, setAllIssues] = useState([]);
   const [currentRow, setCurrentRow] = useState([]);
@@ -121,9 +119,16 @@ export default (props) => {
   }, [response]);
 
   const buttonProps = {
-    onClick: (e, rowData) => {
+    onDelete:(e, rowData) => {
+      console.log('onDelete', rowData);
+    },
+    onEdit:(e, rowData) => {
+      console.log('onEdit', rowData);
+    },
+    onIssue: (e, rowData) => {
       setIsModalOpen(true);
-      setCurrentRow(rowData);
+      // setCurrentRow(rowData);
+
       // getBooks().then(response => {
       //   console.log(response.data.data);
       // });
@@ -190,7 +195,7 @@ export default (props) => {
         </ButtonContainerLogout>
       </Header>
       <TabView
-        tabs={userTabs}
+        tabs={tabs}
       />
       {isModalOpen && (
         <Modal
@@ -217,6 +222,8 @@ export default (props) => {
                 content="Issue Book"
                 onClick={(toDate) => {
                   createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
+                  getAllBooks();
+                  setIsModalOpen(false);
                 }}
               />
             </IssueButtonContainer>

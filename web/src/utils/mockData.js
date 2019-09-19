@@ -32,7 +32,7 @@ export const getColumns = (buttonProps, role) => {
     { title: 'Author', field: 'author', type: 'string' },
     // { title: 'Book Owner', field: 'bookOwner' },
     { title: 'Status', field: 'status', type: 'string' },
-    ...(!isAdmin? [{
+    ...(!isAdmin ? [{
       title: 'Issue', field: 'issue',
       render: (rowData) => {
         const canBeIssued = true;
@@ -43,29 +43,35 @@ export const getColumns = (buttonProps, role) => {
               <PrimaryButton
                 content="Issue"
                 onClick={(e) => {
-                  buttonProps.onClick(e, rowData);
+                  buttonProps.onIssue(e, rowData);
                 }}
               />
             )}
           </Fragment>
         );
       }
-    }]: [] ),
+    }] : []),
 
-    ...(isAdmin? [{
+    ...(isAdmin ? [{
       title: 'Action', field: 'delete',
-      render: () => {
+      render: (rowData) => {
         return (
           <Fragment>
-           <DeleteForeverIcon
-            style={{ cursor: 'pointer' }}
-           />
-           <EditIcon
-            style={{ marginLeft: 5 ,cursor: 'pointer' }}
-           />
+            <DeleteForeverIcon
+              style={{ cursor: 'pointer' }}
+              onClick={(e) => {
+                buttonProps.onDelete(e, rowData);
+              }}
+            />
+            <EditIcon
+              style={{ marginLeft: 5, cursor: 'pointer' }}
+              onClick={(e) => {
+                buttonProps.onEdit(e, rowData);
+              }}
+            />
           </Fragment>
         );
       }
-    }]: [] ),
+    }] : []),
   ]
 };
