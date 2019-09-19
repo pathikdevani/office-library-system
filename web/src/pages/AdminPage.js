@@ -8,8 +8,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import { Input, InputNumber } from 'antd';
 import { createBook, logout } from '../apiMethods';
-
-
+import Imanagelogo from '../images/Imanagelogo';
 
 
 const AddButtonContainer = styled.div`
@@ -23,6 +22,13 @@ const ButtonContainer = styled.div`
   margin-right: 40px;
   margin-top: 40px;
   justify-content: flex-end;
+`;
+
+const LogoContainer = styled.div`
+  position: absolute;
+  left: 0;
+  margin-top: -48px;
+  top: 0;
 `;
 
 export default () => {
@@ -58,6 +64,9 @@ export default () => {
   return (
     <Fragment>
       <ButtonContainer>
+        <LogoContainer>
+          <Imanagelogo/>
+        </LogoContainer>
         <PrimaryButton
           content="Logout"
           onClick={() => {
