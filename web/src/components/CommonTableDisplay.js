@@ -7,7 +7,7 @@ import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks, createIssue, getIssues } from '../apiMethods';
+import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
 import { isAdmin } from '../utils/commonUtils';
 
 const date = new Date();
@@ -30,6 +30,10 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
   justify-content: flex-end;
 `;
+const Header = styled.div`
+  margin-top: 100px;
+`;
+
 
 
 export default (props) => {
@@ -139,7 +143,21 @@ export default (props) => {
 
   return (
     <Fragment>
-      <div>{role}</div>
+      <Header>
+        Hello {role}!
+      <ButtonContainer>
+          <PrimaryButton
+            content="Logout"
+            onClick={() => {
+              logout().then((res) => {
+                window.location = '/';
+              });
+
+            }}
+          />
+        </ButtonContainer>
+      </Header>
+
       <TabView
         tabs={userTabs}
       />

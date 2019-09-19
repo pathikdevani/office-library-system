@@ -124,21 +124,10 @@ export default (props) => {
 
   return (
     <div>
-      <ButtonContainer>
-        <PrimaryButton
-          content="Logout"
-          onClick={() => {
-            logout().then((res) => {
-              window.location = '/';
-            });
-
-          }}
-        />
-      </ButtonContainer>
-    <CommonTableDisplay
-      role="User"
-      user={user}
-    />
+      <CommonTableDisplay
+        role="User"
+        user={user}
+      />
     </div>
   );
 }

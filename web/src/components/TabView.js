@@ -7,7 +7,8 @@ import { Tabs } from 'antd';
 const { TabPane } = Tabs;
 
 const StyledTabs = styled(Tabs)`
-  margin: 50px !important;
+  margin-left: 50px !important;
+  margin-right: 50px !important;
   border: 1px solid grey;
 `;
 

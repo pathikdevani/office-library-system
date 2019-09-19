@@ -6,7 +6,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import { Input, InputNumber } from 'antd';
 import { createBook, logout } from '../apiMethods';
-import Imanagelogo from '../images/Imanagelogo';
+import IManageLogo from '../images/Imanagelogo';
 
 
 const AddButtonContainer = styled.div`
@@ -27,6 +27,7 @@ const LogoContainer = styled.div`
   left: 0;
   margin-top: -48px;
   top: 0;
+  height: 100px;
 `;
 
 export default (props) => {
@@ -63,26 +64,15 @@ export default (props) => {
 
   return (
     <Fragment>
-      <ButtonContainer>
-        <LogoContainer>
-          <Imanagelogo/>
-        </LogoContainer>
-        <PrimaryButton
-          content="Logout"
-          onClick={() => {
-            logout().then((res) => {
-              window.location = '/';
-            });
-
-          }}
-        />
-      </ButtonContainer>
+      <LogoContainer>
+        <IManageLogo />
+      </LogoContainer>
       <CommonTableDisplay
         role="Admin"
         response={response}
         user={user}
         setIsAddBookModalOpen={
-          (value)=>{
+          (value) => {
             setIsAddBookModalOpen(value);
           }
         }
@@ -97,14 +87,14 @@ export default (props) => {
           }}
         >
           <Fragment>
-          <div style={{marginTop:5}}>Add ISBN no of Book:</div>
+            <div style={{ marginTop: 5 }}>Add ISBN no of Book:</div>
             <Input
               placeholder="Add ISBN"
               onChange={(e) => {
                 inputRef.current = e.target.value;
               }}
             />
-            <div style={{marginTop:20}}>No of books:</div>
+            <div style={{ marginTop: 20 }}>No of books:</div>
             <InputNumber
               placeholder="No of Books"
               min={1}
