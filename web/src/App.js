@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { connect } from 'react-redux';
@@ -12,6 +12,8 @@ import authActions from './actions/auth.actions';
 import globalActions from './actions/global.actions';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
+import img from '../src/images/login.JPG';
+import imgLogin from '../src/images/background.JPG';
 
 const Container = styled.div`
   position: relative;
@@ -19,11 +21,16 @@ const Container = styled.div`
   height: 100%;
   float: left;
   pointer-events: auto;
+  background-image: url(${img});
+  background-size: contain;
   opacity: 1;
 
   ${({ show }) => show && css`
     pointer-events: none;
     opacity: .2;
+  `}
+  ${({ isLogin }) => isLogin && css`
+    background-image: url(${imgLogin});
   `}
 `;
 
@@ -35,11 +42,12 @@ function App(props) {
     splash,
     // user,
   } = props;
-
+  const [isLogin , setIsLogin] = useState(true);
   useEffect(() => {
     userRequests
       .isSingedIn()
       .then((user) => {
+        setIsLogin(true);
         setCurrentUser(user.data);
       })
       .finally(() => {
@@ -53,7 +61,7 @@ function App(props) {
   } else {
     render = (
       <Fragment>
-        <Loading show={loading} />
+        <Loading show={loading} isLogin={isLogin} />
         <Container show={loading}>
           <Router>
             <Fragment>
