@@ -99,7 +99,13 @@ export default (props) => {
   }, [response]);
 
   const buttonProps = {
-    onClick: (e, rowData) => {
+    onDelete:(e, rowData) => {
+      console.log('onDelete', rowData);
+    },
+    onEdit:(e, rowData) => {
+      console.log('onEdit', rowData);
+    },
+    onIssue: (e, rowData) => {
       setIsModalOpen(true);
       setCurrentRow(rowData);
       // getBooks().then(response => {
