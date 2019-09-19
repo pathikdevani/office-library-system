@@ -63,6 +63,11 @@ export default React.memo((props) => {
         columns={columns}
         data={rows}
         icons={tableIcons}
+        options={
+          {
+            pageSize: 20,
+          }
+        }
       // editable={{
       //   onRowAdd: () => {},
       //   //  newData =>
