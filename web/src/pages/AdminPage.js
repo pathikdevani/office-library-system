@@ -26,33 +26,33 @@ const ButtonContainer = styled.div`
 `;
 
 export default () => {
-  const dataSource = getRows();
-  const columns = getColumns();
+  // const dataSource = getRows();
+  // const columns = getColumns();
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const inputRef = useRef();
   const noOfBookRef = useRef(1);
   const [response, setResponse] = useState(null);
 
-  const userTabs = [{
-    tab: 'All books',
-    key: 1,
-    content: (
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-      />
-    ),
-  }, {
-    tab: 'Employers',
-    key: 2,
-    content: (
-      <Table
-        // Filter this data
-        dataSource={dataSource}
-        columns={columns}
-      />
-    ),
-  }];
+  // const userTabs = [{
+  //   tab: 'All books',
+  //   key: 1,
+  //   content: (
+  //     <Table
+  //       dataSource={dataSource}
+  //       columns={columns}
+  //     />
+  //   ),
+  // }, {
+  //   tab: 'Employers',
+  //   key: 2,
+  //   content: (
+  //     <Table
+  //       // Filter this data
+  //       dataSource={dataSource}
+  //       columns={columns}
+  //     />
+  //   ),
+  // }];
 
 
   return (
