@@ -34,6 +34,20 @@ const Header = styled.div`
   /* margin-top: 100px; */
 `;
 
+const UserName = styled.div`
+  color: white;
+  height: 20px;
+  margin-left: 100px;
+  /* margin-top: 10px; */
+`;
+
+const TextContainer = styled.div`
+  position: absolute;
+  margin-top: 2px;
+  margin-left: -40px;
+  font-size: 30px;
+`;
+
 const Container = styled.div`
   background-image: url(${img});
   background-size: contain;
@@ -150,7 +164,11 @@ export default (props) => {
     <Fragment>
       <Container>
       <Header>
-        Hello {role}!
+        <UserName>
+          <TextContainer>
+            Hello {user.fname}!
+          </TextContainer>
+        </UserName>
       <ButtonContainer>
           <PrimaryButton
             content="Logout"
