@@ -32,6 +32,10 @@ export const getIssueById = (id) => {
   return api.get(`${apiURL}/issues/${id}`);
 };
 
+export const getMyIssues = () => {
+  return api.get(`${apiURL}/issues/my`);
+};
+
 export const createIssue = (bookId, userId, dueDate) => {
   return api.post(`${apiURL}/issues`, {
     bookId,
