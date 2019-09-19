@@ -24,7 +24,7 @@ export const getRows = () => {
 }
 
 
-export const getColumns = (buttonProps, role) => {
+export const getColumns = (buttonProps, role, tab) => {
   const isAdmin = role === "Admin";
 
   return [
@@ -32,7 +32,7 @@ export const getColumns = (buttonProps, role) => {
     { title: 'Author', field: 'author', type: 'string' },
     // { title: 'Book Owner', field: 'bookOwner' },
     { title: 'Status', field: 'status', type: 'string' },
-    ...(!isAdmin ? [{
+    ...(!isAdmin && tab === 'allBooks' ? [{
       title: 'Issue', field: 'issue',
       render: (rowData) => {
         const canBeIssued = true;
@@ -44,6 +44,25 @@ export const getColumns = (buttonProps, role) => {
                 content="Issue"
                 onClick={(e) => {
                   buttonProps.onIssue(e, rowData);
+                }}
+              />
+            )}
+          </Fragment>
+        );
+      }
+    }] : []),
+    ...(!isAdmin && tab === 'issuedBooks' ? [{
+      title: 'Return', field: 'return',
+      render: (rowData) => {
+        const canBeIssued = true;
+
+        return (
+          <Fragment>
+            {canBeIssued && (
+              <PrimaryButton
+                content="Return"
+                onClick={(e) => {
+                  buttonProps.onReturn(e, rowData);
                 }}
               />
             )}

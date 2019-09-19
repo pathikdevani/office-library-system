@@ -16,14 +16,14 @@ const StyledTabs = styled(Tabs)`
 
 
 export default (props) => {
-  const {tabs} =  props;
+  const { tabs, onChange } = props;
 
 
   return (
     <Fragment>
       <StyledTabs
         defaultActiveKey="1"
-      // onChange={callback}
+        onChange={onChange}
       >
         {tabs.map(tab => (
           <TabPane

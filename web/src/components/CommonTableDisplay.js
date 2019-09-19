@@ -7,7 +7,7 @@ import { getColumns } from '../utils/mockData';
 import PrimaryButton from '../components/PrimaryButton';
 import Modal from '../components/Modal';
 import DatePicker from '../components/DatePicker';
-import { getBooks, createIssue, getIssues, logout } from '../apiMethods';
+import { getBooks, createIssue, getIssues, logout, getMyIssues } from '../apiMethods';
 import { isAdmin } from '../utils/commonUtils';
 import img from '../../src/images/background.JPG';
 
@@ -66,11 +66,13 @@ const Container = styled.div`
 export default (props) => {
   const { user, role, response, setIsAddBookModalOpen, isModalOpen, setIsModalOpen } = props;
   const [allBooks, setAllBooks] = useState([]);
-  const [issues, setAllIssues] = useState([]);
+  const [myIssues, setMyIssues] = useState([]);
+  // const [allIssues, setAllIssues] = useState([]);
+  const [tab, setTab] = useState([]);
   const [currentRow, setCurrentRow] = useState([]);
   const isSubscribed = useRef();
 
-  const mapBookData = (dataSource) => {
+  const mapAllBookData = (dataSource) => {
     if (dataSource.length > 0) {
       return dataSource.map(book => {
         return {
@@ -93,25 +95,64 @@ export default (props) => {
     return [];
   }
 
+  const mapIssuedBookData = (dataSource) => {
+    if (dataSource.length > 0 && allBooks.length > 0) {
+      const allIssues = [].concat.apply([], dataSource.map(book => book.issues));
+      console.log(allIssues);
+
+      return allIssues.map(book => {
+        const b1 = dataSource.find((b) => {
+          if (typeof book === 'undefined') {
+            console.log(allIssues, book)
+            debugger;
+          }
+          return b._id === book.bookId
+        });
+        return {
+          id: book.bookId,
+          isbn: b1.isbn,
+          categories: b1.categories,
+          title: b1.title,
+          author: b1.authors && b1.authors.length > 0
+            ? b1.authors.reduce((author1, author2) => {
+              return `${author1}, ${author2}`;
+            })
+            : '',
+          status: '',
+          // Check this
+          issueStatus: '',
+          // issue: 'issue',
+        }
+      });
+    }
+    return [];
+  }
+
   const getAllBooks = async () => {
     const response = await getBooks();
+    console.log(response.data.data)
     if (isSubscribed.current) {
+      const userBooks = response.data.data.filter((book, i) => {
+        const userHasBook = book.issues.filter(issue => issue.userId === user.id && !issue.isReturned).length > 0
+        return userHasBook;
+      });
+      setMyIssues(userBooks);
       setAllBooks(response.data.data);
+
     }
   };
 
-  const getAllIssues = async () => {
-    const response = await getIssues();
+  const getIssues = async () => {
+    const response = await getMyIssues();
     if (isSubscribed.current) {
-      console.log(response.data.data);
-      setAllIssues(response.data.data);
+      setMyIssues(response.data.data);
     }
   };
 
   useEffect(() => {
     isSubscribed.current = true;
     getAllBooks();
-    getAllIssues();
+    getIssues();
 
     return () => {
       isSubscribed.current = false;
@@ -119,31 +160,26 @@ export default (props) => {
   }, [response]);
 
   const buttonProps = {
-    onDelete:(e, rowData) => {
-      console.log('onDelete', rowData);
+    onDelete: (e, rowData) => {
+      // console.log('onDelete', rowData);
     },
-    onEdit:(e, rowData) => {
-      console.log('onEdit', rowData);
+    onEdit: (e, rowData) => {
+      // console.log('onEdit', rowData);
     },
     onIssue: (e, rowData) => {
       setIsModalOpen(true);
       setCurrentRow(rowData);
-
-      // getBooks().then(response => {
-      //   console.log(response.data.data);
-      // });
-      // getIssues().then(response => {
-      //   console.log(response.data.data);
-      // });
-      // createBook(9788184003482).then(response => {
-      //   console.log(response.data.data);
-      // });;
+    },
+    onReturn: (e, rowData) => {
+      // console.log(rowData);
+      // setIsModalOpen(true);
+      // setCurrentRow(rowData);
     },
   };
 
-  const userTabs = [{
+  let userTabs = [{
     tab: 'All books',
-    key: 1,
+    key: 'allBooks',
     content: (
       <Fragment>
         {isAdmin(role) && (<ButtonContainer>
@@ -155,82 +191,87 @@ export default (props) => {
           />
         </ButtonContainer>)}
         <Table
-          dataSource={mapBookData(allBooks)}
-          columns={getColumns(buttonProps, role)}
+          dataSource={mapAllBookData(allBooks)}
+          columns={getColumns(buttonProps, role, 'allBooks')}
           title="All books"
         />
       </Fragment>
     ),
-  }, {
-    tab: 'Issued books',
-    key: 2,
-    content: (
-      <Table
-        // Filter this data
-        dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps, role)}
-      />
-    ),
   }];
+  if (!isAdmin(role)) {
+    userTabs = userTabs.concat({
+      tab: 'Issued books',
+      key: 'issuedBooks',
+      content: (
+        <Table
+          // Filter this data
+          dataSource={mapIssuedBookData(myIssues)}
+          columns={getColumns(buttonProps, role, 'issuedBooks')}
+        />
+      ),
+    });
+  }
 
   return (
     <Fragment>
       <Container>
-      <Header>
-        <UserName>
-          <TextContainer>
-            Hello {role==='Admin'? 'Admin':user.fname}!
+        <Header>
+          <UserName>
+            <TextContainer>
+              Hello {role === 'Admin' ? 'Admin' : user.fname}!
           </TextContainer>
-        </UserName>
-      <ButtonContainerLogout>
-          <PrimaryButton
-            content="Logout"
-            onClick={() => {
-              logout().then((res) => {
-                window.location = '/';
-              });
+          </UserName>
+          <ButtonContainerLogout>
+            <PrimaryButton
+              content="Logout"
+              onClick={() => {
+                logout().then((res) => {
+                  window.location = '/';
+                });
 
-            }}
-          />
-        </ButtonContainerLogout>
-      </Header>
-      <TabView
-        tabs={userTabs}
-      />
-      {isModalOpen && (
-        <Modal
-          title="Issue Book"
-          visible={isModalOpen}
-          onCancel={() => {
-            setIsModalOpen(false);
+              }}
+            />
+          </ButtonContainerLogout>
+        </Header>
+        <TabView
+          tabs={userTabs}
+          onChange={(val) => {
+            setTab(val);
           }}
-        >
-          <Fragment>
-            <IssueBook>
-              <div>From Date</div>
-              <DatePicker
-                disabled={true}
-                defaultValue={new Date()}
-              />
-              <div>To Date</div>
-              <DatePicker
-                defaultValue={ONE_MONTH_LATER_DATE}
-              />
-            </IssueBook>
-            <IssueButtonContainer>
-              <PrimaryButton
-                content="Issue Book"
-                onClick={(toDate) => {
-                  debugger;
-                  createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
-                  getAllBooks();
-                  setIsModalOpen(false);
-                }}
-              />
-            </IssueButtonContainer>
-          </Fragment>
-        </Modal>
-      )}
+        />
+        {isModalOpen && (
+          <Modal
+            title="Issue Book"
+            visible={isModalOpen}
+            onCancel={() => {
+              setIsModalOpen(false);
+            }}
+          >
+            <Fragment>
+              <IssueBook>
+                <div>From Date</div>
+                <DatePicker
+                  disabled={true}
+                  defaultValue={new Date()}
+                />
+                <div>To Date</div>
+                <DatePicker
+                  defaultValue={ONE_MONTH_LATER_DATE}
+                />
+              </IssueBook>
+              <IssueButtonContainer>
+                <PrimaryButton
+                  content="Issue Book"
+                  onClick={(toDate) => {
+                    createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE);
+                    getAllBooks();
+                    setIsModalOpen(false);
+                  }}
+                />
+              </IssueButtonContainer>
+            </Fragment>
+          </Modal>
+        )}
       </Container>
     </Fragment>
   );
