@@ -1,16 +1,24 @@
 import React, { Fragment } from 'react';
+import styled from 'styled-components';
+
 import { Tabs } from 'antd';
+
 
 const { TabPane } = Tabs;
 
+const StyledTabs = styled(Tabs)`
+  margin: 50px !important;
+  border: 1px solid grey;
+`;
+
+
 export default (props) => {
   const {tabs} =  props;
-  // State?
 
 
   return (
     <Fragment>
-      <Tabs
+      <StyledTabs
         defaultActiveKey="1"
       // onChange={callback}
       >
@@ -22,7 +30,7 @@ export default (props) => {
             {tab.content}
           </TabPane>
         ))}
-      </Tabs>
+      </StyledTabs>
     </Fragment>
   );
 }
