@@ -63,14 +63,12 @@ export default (props) => {
   const getAllBooks = async () => {
     const response = await getBooks();
     if (isSubscribed.current) {
-      console.log('getAllBooks', response.data.data);
       setAllBooks(response.data.data);
     }
   };
   const getAllIssues = async () => {
     const response = await getIssues();
     if (isSubscribed.current) {
-      console.log('getAllIssues', response.data.data);
       setAllIssues(response.data.data);
     }
   };
