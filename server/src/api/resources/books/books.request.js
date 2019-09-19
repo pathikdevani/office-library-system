@@ -1,4 +1,5 @@
 
+const axios = require('axios');
 const Books = require('./books.model');
 
 class UsersRequest {
@@ -50,6 +51,50 @@ class UsersRequest {
 
   static updateBook(id, bookDetail = {}) {
     return Books.findByIdAndUpdate(id, bookDetail);
+  }
+
+  static getBookDetailFromAPI(isbn) {
+    return axios
+      .get(`https://www.googleapis.com/books/v1/volumes?fields=items(volumeInfo)&q=isbn:${isbn}`)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          const { data } = response;
+
+          if (data.items && data.items.length) {
+            return data.items[0].volumeInfo;
+          }
+
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({
+            status: 404,
+            code: 'BOOK_NOT_FOUND',
+          });
+        }
+
+        return Promise.reject(response);
+      });
+  }
+
+  static getDetailMappedDetailFromAPI(isbn, googleBookApi, quantity) {
+    const {
+      title, subtitle, description, pageCount, categories, authors, publishedDate, publisher, imageLinks, previewLink, infoLink,
+    } = googleBookApi;
+
+    return {
+      isbn,
+      title,
+      subtitle,
+      description,
+      pageCount,
+      categories,
+      authors,
+      publisher,
+      publishedDate,
+      imageLinks,
+      previewLink,
+      infoLink,
+      quantity,
+    };
   }
 }
 
