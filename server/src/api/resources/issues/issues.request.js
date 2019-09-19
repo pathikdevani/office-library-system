@@ -19,6 +19,10 @@ class UsersRequest {
       _id: id,
     }, updateData);
   }
+
+  static getMyIssue(userId) {
+    return Issues.find({ userId });
+  }
 }
 
 

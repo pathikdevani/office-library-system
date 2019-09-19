@@ -24,14 +24,36 @@ const IssueButtonContainer = styled.div`
   margin: 10px;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainerLogout = styled.div`
   position: absolute;
   right: 40px;
   top: 85px;
   justify-content: flex-end;
 `;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 65px;
+  justify-content: flex-end;
+`;
+
 const Header = styled.div`
   /* margin-top: 100px; */
+`;
+
+const UserName = styled.div`
+  color: white;
+  height: 20px;
+  margin-left: 100px;
+  /* margin-top: 10px; */
+`;
+
+const TextContainer = styled.div`
+  position: absolute;
+  margin-top: 2px;
+  margin-left: -40px;
+  font-size: 30px;
 `;
 
 const Container = styled.div`
@@ -156,8 +178,12 @@ export default (props) => {
     <Fragment>
       <Container>
       <Header>
-        Hello {role}!
-      <ButtonContainer>
+        <UserName>
+          <TextContainer>
+            Hello {role==='Admin'? 'Admin':user.fname}!
+          </TextContainer>
+        </UserName>
+      <ButtonContainerLogout>
           <PrimaryButton
             content="Logout"
             onClick={() => {
@@ -167,7 +193,7 @@ export default (props) => {
 
             }}
           />
-        </ButtonContainer>
+        </ButtonContainerLogout>
       </Header>
       <TabView
         tabs={userTabs}
