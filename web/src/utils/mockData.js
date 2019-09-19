@@ -31,7 +31,10 @@ export const getColumns = (buttonProps, role, tab) => {
     { title: 'Book title', field: 'title', type: 'string' },
     { title: 'Author', field: 'author', type: 'string' },
     // { title: 'Book Owner', field: 'bookOwner' },
-    { title: 'Status', field: 'status', type: 'string' },
+    { title: 'Categories', field: 'categories', type: 'string' },
+    ...(tab === 'allBooks' ? [{
+      title: 'Availability', field: 'avail', type: 'string'
+    }] : []),
     ...(!isAdmin && tab === 'allBooks' ? [{
       title: 'Issue', field: 'issue',
       render: (rowData) => {

@@ -22,6 +22,7 @@ const role = 'user';
 export default (props) => {
   const { user } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [response, setResponse] = useState(null);
 
 
   return (
@@ -35,6 +36,8 @@ export default (props) => {
         user={user}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        setResponse={setResponse}
+        rep={response}
       />
     </div>
   );

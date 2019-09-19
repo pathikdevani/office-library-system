@@ -64,7 +64,7 @@ const Container = styled.div`
 
 
 export default (props) => {
-  const { user, role, response, setIsAddBookModalOpen, isModalOpen, setIsModalOpen } = props;
+  const { user, role, response, setIsAddBookModalOpen, isModalOpen, setIsModalOpen, rep, setResponse } = props;
   const [allBooks, setAllBooks] = useState([]);
   const [myIssues, setMyIssues] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
@@ -79,7 +79,12 @@ export default (props) => {
         return {
           id: book._id,
           isbn: book.isbn,
-          categories: book.categories,
+          categories: book.categories && book.categories.length > 0
+          ? book.categories.reduce((category1, category2) => {
+            return `${category1}, ${category2}`;
+          })
+          : '',
+          avail: book.quantity - book.issues.length > 0 ? 'Available' : 'Not Available',
           title: book.title,
           author: book.authors && book.authors.length > 0
             ? book.authors.reduce((author1, author2) => {
@@ -153,7 +158,7 @@ export default (props) => {
     return () => {
       isSubscribed.current = false;
     };
-  }, [response]);
+  }, [rep]);
 
   const buttonProps = {
     onDelete: (e, rowData) => {
@@ -168,8 +173,7 @@ export default (props) => {
     },
     onReturn: (e, rowData) => {
       returnBook(rowData.issueId).then((response)=> {
-        getAllBooks();
-        getIssues();
+        setResponse(response);
       });
     },
   };
@@ -260,9 +264,8 @@ export default (props) => {
                 <PrimaryButton
                   content="Issue Book"
                   onClick={(toDate) => {
-                    createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE).then(() => {
-                      getAllBooks();
-                      getIssues();
+                    createIssue(currentRow.id, user.id, ONE_MONTH_LATER_DATE).then((response) => {
+                      setResponse(response);
                     });
                     setIsModalOpen(false);
                   }}
