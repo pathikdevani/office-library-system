@@ -119,7 +119,7 @@ export default (props) => {
       </ButtonContainer>
       <Table
         dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps)}
+        columns={getColumns(buttonProps, role)}
         title="All books"
       />
       </div>
@@ -131,7 +131,7 @@ export default (props) => {
       <Table
         // Filter this data
         dataSource={mapBookData(allBooks)}
-        columns={getColumns(buttonProps)}
+        columns={getColumns(buttonProps, role)}
       />
     ),
   }];
