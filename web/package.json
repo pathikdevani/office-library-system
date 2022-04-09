@@ -16,7 +16,7 @@
     "less-loader": "*",
     "lodash": "*",
     "material-table": "^1.50.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "react": "*",
     "react-app-rewired": "*",
     "react-dom": "*",
